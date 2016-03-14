@@ -14,6 +14,7 @@ public class BreakState extends AbstractAppState implements ActionListener {
 	{
 		this.main = (Main)app;
 		main.stateInfoText.setText("state: BreakScreenState");
+		System.out.println("Hello");
 	}
 
 

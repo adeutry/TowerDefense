@@ -28,7 +28,9 @@ public class Main extends SimpleApplication {
         Main app = new Main();
 	initAppScreen(app);
         app.start();
+	    System.out.println("Hello!");
     }
+    
 
     @Override
     public void simpleInitApp() {
