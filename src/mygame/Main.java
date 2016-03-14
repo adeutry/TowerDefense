@@ -29,6 +29,7 @@ public class Main extends SimpleApplication {
 	initAppScreen(app);
         app.start();
 	    System.out.println("Hello!");
+            System.out.println("heyy");
     }
     
 
