@@ -39,6 +39,7 @@ public class Main extends SimpleApplication {
 	initLights();
 	initModels();
 	initGui();
+        System.out.println(">:C");
 	
 	StartScreenState startScreen = new StartScreenState();
 	stateManager.attach(startScreen);
