@@ -18,7 +18,7 @@ public class StartScreenState extends AbstractAppState implements ActionListener
 	public void initialize(AppStateManager stateManager, Application app) 
 	{
 		this.main = (Main)app;
-		main.stateInfoText.setText("state: StartScreenState");
+		main.stateInfoText.setText("state: StartScreenState\nGo to Round Screen: Space");
 		
 		//create and attach logo
 		logoPic = new Picture("startScreenLogo");
@@ -27,12 +27,13 @@ public class StartScreenState extends AbstractAppState implements ActionListener
 		logoPic.setHeight(main.getAppSettings().getHeight()*.4f);
 		logoPic.setPosition(
 			 main.getAppSettings().getWidth()*.2f, 
-		         main.getAppSettings().getHeight()*.3f);
+		   main.getAppSettings().getHeight()*.3f);
 		main.getGuiNode().attachChild(logoPic);
 		
 		//Keys
 		InputManager inputManager = main.getInputManager();
 		inputManager.clearMappings();
+		
 		inputManager.addMapping("Start", new KeyTrigger(KeyInput.KEY_SPACE));
 		inputManager.addListener(this, "Start");	
 	}
@@ -44,7 +45,7 @@ public class StartScreenState extends AbstractAppState implements ActionListener
 	}
 	
 	public void onAction(String name, boolean isPressed, float tpf) {
-		if(name.equals("Start"))
+		if(name.equals("Start") && isPressed)
 		{
 			//transition to initial break screen
 			AppStateManager asm = main.getStateManager();

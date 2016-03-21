@@ -8,21 +8,21 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 
-public class PauseState extends AbstractAppState implements ActionListener {
+public class EndScreenState extends AbstractAppState implements ActionListener {
 
 	Main main;
 				
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) 
 	{
-				this.main = (Main)app;
-				main.stateInfoText.setText("state: Game Paused\nResume Game: P");
+			this.main = (Main)app;
+			main.stateInfoText.setText("state: EndScreenState\nMain Menu: Space");
 
-				//Keys
-				InputManager inputManager = main.getInputManager();
-				inputManager.clearMappings();
-				inputManager.addMapping("Unpause", new KeyTrigger(KeyInput.KEY_P));
-				inputManager.addListener(this, "Unpause");	
+			//Keys
+			InputManager inputManager = main.getInputManager();
+			inputManager.clearMappings();
+			inputManager.addMapping("Menu", new KeyTrigger(KeyInput.KEY_SPACE));
+			inputManager.addListener(this, "Menu");	
 	}
 
 
@@ -32,15 +32,14 @@ public class PauseState extends AbstractAppState implements ActionListener {
 	}
 	
 	public void onAction(String name, boolean isPressed, float tpf) {
-		//Pausing game during round
-		if(name.equals("Unpause") && isPressed)
+			//Pausing game during round
+		if(name.equals("Menu") && isPressed)
 		{
-				System.out.println("Unpaused!");
 				//transition to initial break screen
 				AppStateManager asm = main.getStateManager();
-				RoundState roundState = new RoundState();
+				StartScreenState startScreenState = new StartScreenState();
 				asm.detach(this);
-				asm.attach(roundState);
+				asm.attach(startScreenState);
 		}
 	}
 

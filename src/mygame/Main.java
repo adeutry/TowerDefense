@@ -3,6 +3,7 @@ package mygame;
 import com.jme3.app.SimpleApplication;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
+import com.jme3.input.InputManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -28,8 +29,6 @@ public class Main extends SimpleApplication {
         Main app = new Main();
 	initAppScreen(app);
         app.start();
-	    System.out.println("Hello!");
-            System.out.println("heyy");
     }
     
 
@@ -40,7 +39,6 @@ public class Main extends SimpleApplication {
 	initLights();
 	initModels();
 	initGui();
-        System.out.println(">:C");
 	
 	StartScreenState startScreen = new StartScreenState();
 	stateManager.attach(startScreen);
@@ -85,6 +83,11 @@ public class Main extends SimpleApplication {
   {
       return this.settings;
   }
+	
+	public InputManager getInputManager()
+	{
+			return this.inputManager;
+	}
   
   private static void initAppScreen(SimpleApplication app)
   {
