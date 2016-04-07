@@ -32,7 +32,7 @@ public class StartScreenState extends AbstractAppState implements ActionListener
 		
 		//Keys
 		InputManager inputManager = main.getInputManager();
-		inputManager.clearMappings();
+		//inputManager.clearMappings();
 		
 		inputManager.addMapping("Start", new KeyTrigger(KeyInput.KEY_SPACE));
 		inputManager.addListener(this, "Start");	

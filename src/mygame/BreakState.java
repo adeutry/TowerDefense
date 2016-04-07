@@ -20,7 +20,7 @@ public class BreakState extends AbstractAppState implements ActionListener {
 		
 		//Keys
 		InputManager inputManager = main.getInputManager();
-		inputManager.clearMappings();
+		//inputManager.clearMappings();
 		inputManager.addMapping("StartRound", new KeyTrigger(KeyInput.KEY_SPACE));
 		inputManager.addListener(this, "StartRound");	
 	}
