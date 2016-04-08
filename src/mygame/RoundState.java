@@ -47,10 +47,23 @@ public class RoundState extends AbstractAppState implements ActionListener {
 				inputManager.addMapping("End", new KeyTrigger(KeyInput.KEY_SPACE));
 				inputManager.addListener(this, "Pause","End");	
 				
-				//Add a test tower
-				towers[0] = new Tower(main);
-				towers[0].setLocalTranslation(0, 0, -10);
-				main.getRootNode().attachChild(towers[0]);
+				//Add some test towers
+				Tower temp = new Tower(main);
+				temp.setLocalTranslation(0, 0, -20);
+				main.towers.add(temp);
+				main.getRootNode().attachChild(main.towers.get(0));
+				
+				temp = new Tower(main);
+				temp.setLocalTranslation(10, 0, -10);
+				main.towers.add(temp);
+				main.getRootNode().attachChild(main.towers.get(1));
+				
+				temp = new Tower(main);
+				temp.setLocalTranslation(-10, 0, -10);
+				main.towers.add(temp);
+				main.getRootNode().attachChild(main.towers.get(2));
+				
+				
 				
 				
 				//Add a testEnemy
