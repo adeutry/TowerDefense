@@ -13,6 +13,7 @@ import com.jme3.math.Vector3f;
 public class RoundState extends AbstractAppState implements ActionListener {
 
 	Main main;
+        private String newMappings[];
 	Tower[] towers = new Tower[10];		
 	
 	//How often enemies are spawned. A lower value increases the spawn rate.
@@ -45,8 +46,8 @@ public class RoundState extends AbstractAppState implements ActionListener {
 				//inputManager.clearMappings();
 				inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_P));
 				inputManager.addMapping("End", new KeyTrigger(KeyInput.KEY_SPACE));
-				inputManager.addListener(this, "Pause","End");	
-				
+				inputManager.addListener(this, newMappings= new String[]{"Pause","End"});	
+
 				//Add some test towers
 				Tower temp = new Tower(main);
 				temp.setLocalTranslation(0, 0, -20);
@@ -112,7 +113,8 @@ public class RoundState extends AbstractAppState implements ActionListener {
 	@Override
 	public void cleanup()
 	{
-		
+            System.out.println("Cleaning up round state...");
+		main.deleteInputMappings(newMappings);
 	}
 
 

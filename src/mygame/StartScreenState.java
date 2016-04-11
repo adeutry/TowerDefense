@@ -12,6 +12,7 @@ import com.jme3.ui.Picture;
 public class StartScreenState extends AbstractAppState implements ActionListener {
 
 	private Picture logoPic;
+        private String newMappings[];
 	Main main;
 	
 	@Override
@@ -35,7 +36,7 @@ public class StartScreenState extends AbstractAppState implements ActionListener
 		//inputManager.clearMappings();
 		
 		inputManager.addMapping("Start", new KeyTrigger(KeyInput.KEY_SPACE));
-		inputManager.addListener(this, "Start");	
+		inputManager.addListener(this, newMappings = new String[]{"Start"});	
 	}
 
 
@@ -61,6 +62,7 @@ public class StartScreenState extends AbstractAppState implements ActionListener
 	{
 		System.out.println("cleaning up startScreen...");
 		main.getGuiNode().detachChild(logoPic);
+                main.deleteInputMappings(newMappings);
 	}
 
 

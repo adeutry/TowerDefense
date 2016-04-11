@@ -17,6 +17,7 @@ import com.jme3.util.SkyFactory;
 import de.lessvoid.nifty.Nifty;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.LinkedList;
 import java.util.ArrayList;
 
 /**
@@ -88,12 +89,12 @@ public class Main extends SimpleApplication {
     public AppSettings getAppSettings() {
         return this.settings;
     }
-    
-    public Nifty getNifty(){
+
+    public Nifty getNifty() {
         return this.nifty;
     }
-    
-    public NiftyJmeDisplay getNiftyDisplay(){
+
+    public NiftyJmeDisplay getNiftyDisplay() {
         return this.niftyDisplay;
     }
 
@@ -112,5 +113,20 @@ public class Main extends SimpleApplication {
 
         //get rid of initial jmonkey screen
         app.setShowSettings(false);
+    }
+
+    public void deleteInputMappings(String mappings[]) {
+        for (String i : mappings) {
+            inputManager.deleteMapping(i);
+        }
+    }
+
+    public boolean hasObject(LinkedList<?> sp, Class cls) {
+        for (Object s : sp) {
+            if (s.getClass().equals(cls)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

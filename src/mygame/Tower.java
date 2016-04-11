@@ -16,14 +16,15 @@ import com.jme3.scene.shape.Sphere;
  * @author adeut_000
  */
 public class Tower extends Node {
-		public Tower(Main main)
-		{
-				Box b = new Box(1,3,1);
-				Geometry g = new Geometry("TestTower" , b);
-				g.move(0, 3.0f/2.0f , 0);
-				Material mat = new Material(main.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-				mat.setColor("Color", ColorRGBA.Blue);
-				g.setMaterial(mat);
-				this.attachChild(g);
-		}
+
+    public Tower(Main main) {
+        float height = 2;
+        Box b = new Box(.5f, height, .5f);
+        Geometry g = new Geometry("TestTower", b);
+        g.move(0, height, 0);
+        Material mat = new Material(main.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Blue);
+        g.setMaterial(mat);
+        this.attachChild(g);
+    }
 }
