@@ -24,6 +24,14 @@ public class RoundState extends AbstractAppState implements ActionListener {
   //angle = 360 the enemies will spawn from any angle around the tower
   private static final float ENEMY_SPAWN_ANGLE_RANGE = 70f;
   private float enemySpawnTimer = 0;
+  
+        //MainTower
+        MainTower tow;
+        //lasers
+        long totalTime, currentTime;
+        long HALF_SEC = 500;
+  
+  
 
   @Override
   public void initialize(AppStateManager stateManager, Application app) {
@@ -44,6 +52,8 @@ public class RoundState extends AbstractAppState implements ActionListener {
     inputManager.addListener(this, newMappings = new String[]{"Pause", "End"});
 
 
+         //Add main tower + controls
+          tow = new MainTower(main);
     //Add a testEnemy
     //main.getRootNode().attachChild(new TestEnemy(main));
   }
@@ -65,6 +75,17 @@ public class RoundState extends AbstractAppState implements ActionListener {
       //te.setLocalTranslation(posX, 0, posZ);
       enemySpawnTimer = 0;
     }
+    
+                //laser detach control
+                     currentTime = System.currentTimeMillis();
+                    if (currentTime - totalTime >= HALF_SEC) {
+                            tow.Head.detachChild(tow.laserGeom);
+                            tow.Head.detachChild(tow.laserNode);
+                        totalTime = currentTime; // Reset to now.
+
+                    }
+    
+    
   }
 
   public void onAction(String name, boolean isPressed, float tpf) {
