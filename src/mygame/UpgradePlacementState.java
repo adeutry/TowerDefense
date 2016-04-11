@@ -33,6 +33,8 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
     public void initialize(AppStateManager stateManager, Application app) {
         this.main = (Main) app;
         main.stateInfoText.setText("state: UpgradePlacementState\nConfirm placement: Space");
+        main.getCamera().setLocation(new Vector3f(0,5,0));
+        main.getCamera().lookAt(new Vector3f(0,0,-15), Vector3f.UNIT_Y);
         makeUpgrade();
 
         //Keys
@@ -141,9 +143,10 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
             ColorRGBA.Gray, ColorRGBA.Magenta};
         int upType = Integer.parseInt(this.upgrade.substring(3));
         Tower newTower = new Tower(main);
+        main.towers.add(newTower);
         Geometry towGeom = (Geometry) newTower.getChild(0);
         towGeom.getMaterial().setColor("Color", colors[upType - 1]);
-        newTower.move(new Vector3f(-2, 0, 0));
+        newTower.move(new Vector3f(-2, 0, -10));
         tower = newTower;
         tower.setName(upgrade);
         tower.addControl(new CollisionControl(main, tower));

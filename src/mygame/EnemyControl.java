@@ -14,14 +14,11 @@ import com.jme3.scene.control.AbstractControl;
  */
 class EnemyControl extends AbstractControl {
 
-				@Override
-				protected void controlUpdate(float tpf) {
-								
-				}
+  @Override
+  protected void controlUpdate(float tpf) {
+  }
 
-				@Override
-				protected void controlRender(RenderManager rm, ViewPort vp) {
-								
-				}
-				
+  @Override
+  protected void controlRender(RenderManager rm, ViewPort vp) {
+  }
 }

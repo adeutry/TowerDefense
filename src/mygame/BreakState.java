@@ -14,6 +14,7 @@ import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.debug.Grid;
+import com.jme3.scene.shape.Box;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
@@ -49,6 +50,15 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
 // attach the Nifty display to the gui view port as a processor
         main.getGuiViewPort().addProcessor(main.getNiftyDisplay());
         main.getFlyByCamera().setDragToRotate(true);
+        
+        //add the ground
+        Box b = new Box(20, 0.2f, 20);
+        Geometry g = new Geometry("Ground", b);
+        g.move(0, -0.5f, 0);
+        Material mat = new Material(main.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Black);
+        g.setMaterial(mat);
+        main.getRootNode().attachChild(g);
         
     }
 

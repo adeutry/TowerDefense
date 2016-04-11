@@ -23,7 +23,7 @@ public class StartScreenState extends AbstractAppState implements ActionListener
 		
 		//create and attach logo
 		logoPic = new Picture("startScreenLogo");
-		logoPic.setImage(app.getAssetManager(), "Textures/UI/startScreenLogo.png", true);
+		logoPic.setImage(app.getAssetManager(), "Textures/UI/startScreenLogo2.png", true);
 		logoPic.setWidth(main.getAppSettings().getWidth()*.6f);
 		logoPic.setHeight(main.getAppSettings().getHeight()*.4f);
 		logoPic.setPosition(
