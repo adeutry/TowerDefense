@@ -39,9 +39,9 @@ public class RoundState extends AbstractAppState implements ActionListener {
     main.stateInfoText.setText("state: RoundState\nPause Game: P\nEnd Screen: Space");
 
     //Camera
-    main.getCamera().setLocation(new Vector3f(0, 8, 0));
-    main.getCamera().lookAt(new Vector3f(0, 0, -15), Vector3f.UNIT_Y);
-    main.getFlyByCamera().setEnabled(true);
+//    main.getCamera().setLocation(new Vector3f(0, 8, 0));
+//    main.getCamera().lookAt(new Vector3f(0, 0, -15), Vector3f.UNIT_Y);
+//    main.getFlyByCamera().setEnabled(true);
 
 
     //Keys
@@ -86,6 +86,14 @@ public class RoundState extends AbstractAppState implements ActionListener {
                     }
     
     
+		
+		if(main.homeTower!=null)
+		{
+				if(!main.homeTower.isAlive())
+				{
+						
+				}
+		}
   }
 
   public void onAction(String name, boolean isPressed, float tpf) {

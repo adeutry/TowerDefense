@@ -37,6 +37,7 @@ public class Main extends SimpleApplication {
      * Physics for collision
      */
     public BulletAppState bulletAppState;
+		public Tower homeTower;
 
     public static void main(String[] args) {
         Main app = new Main();
