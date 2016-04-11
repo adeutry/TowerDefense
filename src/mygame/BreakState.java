@@ -33,7 +33,7 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
         if(main.getRootNode().getChild("floorGrid") == null){
             ground = new Node();
             ground.setName("floorGrid");
-            attachGrid(Vector3f.ZERO, 50, 50, 1, ColorRGBA.White);
+            attachGrid(Vector3f.ZERO, 200, 200, 1, ColorRGBA.Cyan);
         }
         if(main.getRootNode().getChild("TestTower") == null){
             computerTower = new Tower(main);
@@ -52,7 +52,7 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
         main.getFlyByCamera().setDragToRotate(true);
         
         //add the ground
-        Box b = new Box(20, 0.2f, 20);
+        Box b = new Box(100, 0.2f, 100);
         Geometry g = new Geometry("Ground", b);
         g.move(0, -0.5f, 0);
         Material mat = new Material(main.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
@@ -60,6 +60,15 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
         g.setMaterial(mat);
         main.getRootNode().attachChild(g);
         
+				//set up home tower
+				Tower newTower = new Tower(main);
+        main.towers.add(newTower);
+				main.homeTower = newTower;
+        Geometry towGeom = (Geometry) newTower.getChild(0);
+        towGeom.getMaterial().setColor("Color", ColorRGBA.Cyan);
+        newTower.move(new Vector3f(0, 0, 0));
+        main.getRootNode().attachChild(newTower);
+				
     }
 
     @Override

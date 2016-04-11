@@ -31,6 +31,7 @@ public class TestEnemy extends Enemy {
   private void initModel(Main main) {
     Sphere s = new Sphere(10, 10, 0.5f);
     Geometry g = new Geometry("TestEnemy", s);
+		g.move(0, 0.4f, 0);
     Material mat = new Material(main.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
     mat.setColor("Color", ColorRGBA.Red);
     g.setMaterial(mat);
@@ -43,6 +44,10 @@ public class TestEnemy extends Enemy {
     Node testEnemyNode;
     private static final int MOVING = 0;
     private static final int ATTACKING = 1;
+		private static final float ATTACK_RANGE = 2f;
+		private float ATTACK_COOLDOWN = 2f;
+		private float ATTACK_DMG = 10f;
+		private float attackTimer = 0;
     private int state;
     Tower target;
 
@@ -58,13 +63,37 @@ public class TestEnemy extends Enemy {
     @Override
     protected void controlUpdate(float tpf) {
 
-      if (target != null) {
+			//if not within range of target move towards it	
+      if (		target != null 
+							&& target.isAlive() 
+							&&target.getLocalTranslation()
+							.distance(testEnemyNode.getLocalTranslation()) > ATTACK_RANGE ) {
+					
         testEnemyNode.move(
                 target.getLocalTranslation()
                 .subtract(testEnemyNode.getLocalTranslation())
                 .normalize()
                 .mult(tpf));
       }
+			
+			//if target is within range, attack
+			if((target!= null) &&
+					target.isAlive() && target.getLocalTranslation()
+							.distance(testEnemyNode.getLocalTranslation()) <= ATTACK_RANGE)
+			{
+					if((attackTimer+=tpf) >= ATTACK_COOLDOWN)
+					{
+							System.out.println("Attacking tower!");
+							target.receiveDamage(ATTACK_DMG);
+							attackTimer = 0;
+					}
+			}
+			
+			//if our  current target is dead, find a new target
+			if(!target.isAlive())
+			{
+					findTarget();
+			}
 
 
       //testEnemyNode.move(0, 0, -tpf);
@@ -82,7 +111,7 @@ public class TestEnemy extends Enemy {
       Tower newTarget;
 
       //if no current target find initial target
-      if (target == null) {
+      if (target == null || !target.isAlive()) {
         minDist = Float.MAX_VALUE;
         newTarget = null;
       } else {
@@ -91,24 +120,23 @@ public class TestEnemy extends Enemy {
         newTarget = target;
       }
 
-
-
-
-
-
       //look for closer target
       for (Tower t : main.towers) {
+					
+				if(t.isAlive())
+				{
+						//get the distance to the current tower under consideration
+						distTo = t.getLocalTranslation()
+										.distance(testEnemyNode.getLocalTranslation());
 
-        //get the distance to the current tower under consideration
-        distTo = t.getLocalTranslation()
-                .distance(testEnemyNode.getLocalTranslation());
-
-        //check to see if it is closer than the closest tower
-        //we current have
-        if (distTo < minDist) {
-          newTarget = t;
-          minDist = distTo;
-        }
+						//check to see if it is closer than the closest tower
+						//we current have
+						if (distTo < minDist) {
+							newTarget = t;
+							minDist = distTo;
+						}
+				}
+        
       }
 
       if (newTarget != null) {

@@ -32,6 +32,7 @@ public class Main extends SimpleApplication {
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
 		public ArrayList<Tower> towers;
+		public Tower homeTower;
 
     public static void main(String[] args) {
         Main app = new Main();

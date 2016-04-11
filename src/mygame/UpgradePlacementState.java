@@ -49,6 +49,8 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
         inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_RIGHT));
         inputManager.addListener(this, newMappings = new String[]{"Confirm", "Quit",
             "Cancel", "Forward", "Backward", "Left", "Right"});
+				
+				
     }
 
     @Override
