@@ -17,6 +17,7 @@ import com.jme3.util.SkyFactory;
 import de.lessvoid.nifty.Nifty;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 /**
  * test
@@ -29,6 +30,7 @@ public class Main extends SimpleApplication {
     BitmapText stateInfoText;
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
+		public ArrayList<Tower> towers;
 
     public static void main(String[] args) {
         Main app = new Main();
@@ -55,6 +57,10 @@ public class Main extends SimpleApplication {
     }
 
     private void initModels() {
+				
+				//initialize towers array
+				towers = new ArrayList<Tower>();
+				
         //attach skybox
         Spatial sky = SkyFactory.createSky(assetManager, "Textures/Sky/BlueClouds.dds", false);
         rootNode.attachChild(sky);
