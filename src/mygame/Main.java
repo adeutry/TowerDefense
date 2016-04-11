@@ -1,6 +1,7 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.bullet.BulletAppState;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.input.InputManager;
@@ -32,6 +33,10 @@ public class Main extends SimpleApplication {
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
 		public ArrayList<Tower> towers;
+                 /**
+     * Physics for collision
+     */
+    public BulletAppState bulletAppState;
 		public Tower homeTower;
 
     public static void main(String[] args) {
@@ -47,6 +52,15 @@ public class Main extends SimpleApplication {
         initLights();
         initModels();
         initGui();
+        
+        //MainTower
+        initCrossHairs();
+         /**
+         * Set up Physics Game
+         */
+        bulletAppState = new BulletAppState();
+        stateManager.attach(bulletAppState);
+        
 
         StartScreenState startScreen = new StartScreenState();
         stateManager.attach(startScreen);
@@ -129,5 +143,18 @@ public class Main extends SimpleApplication {
             }
         }
         return false;
+    }
+    
+      //for mainTower crosshair
+       public void initCrossHairs() {
+        guiNode.detachAllChildren();
+        guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
+        BitmapText ch = new BitmapText(guiFont, false);
+        ch.setSize(guiFont.getCharSet().getRenderedSize() * 2);
+        ch.setText("+");       
+        ch.setLocalTranslation( // center
+                settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
+                settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
+        guiNode.attachChild(ch);
     }
 }
