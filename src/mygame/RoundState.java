@@ -47,15 +47,25 @@ public class RoundState extends AbstractAppState implements ActionListener {
 				inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_P));
 				inputManager.addMapping("End", new KeyTrigger(KeyInput.KEY_SPACE));
 				inputManager.addListener(this, newMappings= new String[]{"Pause","End"});	
+
+				//Add some test towers
+				Tower temp = new Tower(main);
+				temp.setLocalTranslation(0, 0, -20);
+				main.towers.add(temp);
+				main.getRootNode().attachChild(main.towers.get(0));
 				
-				//Add a test tower
-//				towers[0] = new Tower(main);
-//				towers[0].setLocalTranslation(0, 0, -10);
-//				main.getRootNode().attachChild(towers[0]);
+				temp = new Tower(main);
+				temp.setLocalTranslation(10, 0, -10);
+				main.towers.add(temp);
+				main.getRootNode().attachChild(main.towers.get(1));
 				
-				
+				temp = new Tower(main);
+				temp.setLocalTranslation(-10, 0, -10);
+				main.towers.add(temp);
+				main.getRootNode().attachChild(main.towers.get(2));
+								
 				//Add a testEnemy
-				main.getRootNode().attachChild(new TestEnemy(main));
+				//main.getRootNode().attachChild(new TestEnemy(main));
 	}
 
 
@@ -72,9 +82,9 @@ public class RoundState extends AbstractAppState implements ActionListener {
 					float posX = FastMath.sin(angle)*ENEMY_SPAWN_OFFSET;
 					float posZ = -FastMath.cos(angle)*ENEMY_SPAWN_OFFSET;
 					System.out.println("posX: " + posX + "\nposY: " + posZ + "\n");
-					TestEnemy te = new TestEnemy(main);
+					TestEnemy te = new TestEnemy(main, new Vector3f(posX, 0, posZ));
 					main.getRootNode().attachChild(te);
-					te.setLocalTranslation(posX, 0, posZ);
+					//te.setLocalTranslation(posX, 0, posZ);
 					enemySpawnTimer = 0;
 			}
 	}
