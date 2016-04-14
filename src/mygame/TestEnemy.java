@@ -6,6 +6,7 @@ package mygame;
 
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
@@ -33,8 +34,8 @@ public class TestEnemy extends Enemy {
     Geometry g = new Geometry("TestEnemy", s);
 		g.move(0, 0.4f, 0);
     Material mat = new Material(main.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-    mat.setColor("Color", ColorRGBA.Red);
-    g.setMaterial(mat);
+    mat.setColor("Color", ColorRGBA.White);
+    g.setMaterial(main.whiteGlow);
     this.attachChild(g);
 
   }
@@ -48,6 +49,7 @@ public class TestEnemy extends Enemy {
 		private float ATTACK_COOLDOWN = 2f;
 		private float ATTACK_DMG = 2f;
 		private float attackTimer = 0;
+		private float time = 0;
     private int state;
     Tower target;
 
@@ -63,14 +65,15 @@ public class TestEnemy extends Enemy {
     @Override
     protected void controlUpdate(float tpf) {
 
+				time+=tpf;
+				
 			//if not within range of target move towards it	
       if (		target != null 
 							&& target.isAlive() 
 							&&target.getLocalTranslation()
 							.distance(testEnemyNode.getLocalTranslation()) > ATTACK_RANGE ) {
 					
-        testEnemyNode.move(
-                target.getLocalTranslation()
+        testEnemyNode.move(target.getLocalTranslation()
                 .subtract(testEnemyNode.getLocalTranslation())
                 .normalize()
                 .mult(tpf));

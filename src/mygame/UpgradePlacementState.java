@@ -146,7 +146,7 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
         int upType = Integer.parseInt(this.upgrade.substring(3));
         Tower newTower = new Tower(main);
         main.towers.add(newTower);
-        Geometry towGeom = (Geometry) newTower.getChild(0);
+        Geometry towGeom = (Geometry) newTower.getChild("TowerGeo");
         towGeom.getMaterial().setColor("Color", colors[upType - 1]);
         newTower.move(new Vector3f(-2, 0, -10));
         tower = newTower;

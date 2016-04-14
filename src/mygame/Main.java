@@ -9,6 +9,8 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
+import com.jme3.post.FilterPostProcessor;
+import com.jme3.post.filters.BloomFilter;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
@@ -17,6 +19,8 @@ import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
 import de.lessvoid.nifty.Nifty;
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.util.LinkedList;
 import java.util.ArrayList;
@@ -33,11 +37,15 @@ public class Main extends SimpleApplication {
     private NiftyJmeDisplay niftyDisplay;
     private Nifty nifty;
 		public ArrayList<Tower> towers;
+		public ArrayList<Enemy> enemies;
                  /**
      * Physics for collision
      */
     public BulletAppState bulletAppState;
 		public Tower homeTower;
+		
+		Material whiteGlow;
+		Material laserGlow;
 
     public static void main(String[] args) {
         Main app = new Main();
@@ -63,10 +71,31 @@ public class Main extends SimpleApplication {
         
 
         StartScreenState startScreen = new StartScreenState();
-        stateManager.attach(startScreen);
+				stateManager.attach(startScreen);
+//				
+//				TestState testState = new TestState();
+//        stateManager.attach(testState);
     }
 
     private void initMaterials() {
+				
+				//glow for enemies
+				whiteGlow = new Material(getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+				whiteGlow.setColor("Color", ColorRGBA.Cyan);
+				whiteGlow.setColor("GlowColor", ColorRGBA.White);
+				FilterPostProcessor fpp=new FilterPostProcessor(assetManager);
+				BloomFilter bloom= new BloomFilter(BloomFilter.GlowMode.Objects);        
+				bloom.setBloomIntensity(3.0f);
+				bloom.setBlurScale(7.0f);
+				fpp.addFilter(bloom);
+				viewPort.addProcessor(fpp);
+				
+				//glow for laser beams
+				laserGlow = new Material(getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+				laserGlow.setColor("Color", ColorRGBA.Red);
+				laserGlow.setColor("GlowColor", ColorRGBA.Red);
+			  
+				
     }
 
     private void initLights() {
@@ -74,8 +103,9 @@ public class Main extends SimpleApplication {
 
     private void initModels() {
 				
-				//initialize towers array
+				//initialize towers and enemies arrays
 				towers = new ArrayList<Tower>();
+				enemies = new ArrayList<Enemy>();
 				
         //attach skybox
         Spatial sky = SkyFactory.createSky(assetManager, "Textures/Sky/BlueClouds.dds", false);
@@ -125,9 +155,11 @@ public class Main extends SimpleApplication {
         screen.height *= 0.75;
         aps.setResolution(screen.width, screen.height);
         app.setSettings(aps);
-
+				
         //get rid of initial jmonkey screen
         app.setShowSettings(false);
+				
+				
     }
 
     public void deleteInputMappings(String mappings[]) {

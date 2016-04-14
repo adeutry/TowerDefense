@@ -64,7 +64,7 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
 				Tower newTower = new Tower(main);
         main.towers.add(newTower);
 				main.homeTower = newTower;
-        Geometry towGeom = (Geometry) newTower.getChild(0);
+        Geometry towGeom = (Geometry) newTower.getChild("TowerGeo");
         towGeom.getMaterial().setColor("Color", ColorRGBA.Cyan);
         newTower.move(new Vector3f(0, 0, 0));
         main.getRootNode().attachChild(newTower);

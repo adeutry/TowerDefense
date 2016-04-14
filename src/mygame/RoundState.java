@@ -71,19 +71,21 @@ public class RoundState extends AbstractAppState implements ActionListener {
       float posZ = -FastMath.cos(angle) * ENEMY_SPAWN_OFFSET;
       System.out.println("posX: " + posX + "\nposY: " + posZ + "\n");
       TestEnemy te = new TestEnemy(main, new Vector3f(posX, 0, posZ));
+			main.enemies.add(te);
       main.getRootNode().attachChild(te);
       //te.setLocalTranslation(posX, 0, posZ);
       enemySpawnTimer = 0;
     }
-    
-                //laser detach control
-                     currentTime = System.currentTimeMillis();
-                    if (currentTime - totalTime >= HALF_SEC) {
-                            tow.Head.detachChild(tow.laserGeom);
-                            tow.Head.detachChild(tow.laserNode);
-                        totalTime = currentTime; // Reset to now.
 
-                    }
+		
+//laser detach control
+		 currentTime = System.currentTimeMillis();
+		if (currentTime - totalTime >= HALF_SEC) {
+						tow.Head.detachChild(tow.laserGeom);
+						tow.Head.detachChild(tow.laserNode);
+				totalTime = currentTime; // Reset to now.
+
+		}
     
     
 		

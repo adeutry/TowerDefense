@@ -15,7 +15,7 @@ import com.jme3.scene.control.AbstractControl;
  *
  * @author Rolf
  */
-public class SingleBurstParticleEmitter extends AbstractControl{
+public class EnemyDamageParticleEmitter extends AbstractControl{
     private static final float MAXLIFETIME = 2.0f;
     ParticleEmitter emitter;
     SimpleApplication sa;
@@ -23,13 +23,12 @@ public class SingleBurstParticleEmitter extends AbstractControl{
     private float time;
     Vector3f location;
     
-    public SingleBurstParticleEmitter(SimpleApplication sa, Node parent, Vector3f location){
+    public EnemyDamageParticleEmitter(SimpleApplication sa, Node parent, Vector3f location){
         this.sa = sa;
         this.parent = parent;
         this.location = location;
         init();
     }
-    
     
     @Override
     protected void controlUpdate(float tpf) {
@@ -46,25 +45,26 @@ public class SingleBurstParticleEmitter extends AbstractControl{
     }  
     
     public void init(){
-        emitter = new ParticleEmitter("Debris", ParticleMesh.Type.Triangle, 10);
+        emitter = new ParticleEmitter("Debris", ParticleMesh.Type.Triangle, 70);
         Material debris_mat = new Material(sa.getAssetManager(), "Common/MatDefs/Misc/Particle.j3md");
-        debris_mat.setTexture("Texture", sa.getAssetManager().loadTexture("Effects/Explosion/flame.png"));
+        debris_mat.setTexture("Texture", sa.getAssetManager().loadTexture("Effects/Explosion/spark.png"));
         emitter.setMaterial(debris_mat);
-        emitter.setImagesX(2);
-        emitter.setImagesY(2); // 3x3 texture animation
-        emitter.setRotateSpeed(40);
+        emitter.setImagesX(1);
+        emitter.setImagesY(1); // 3x3 texture animation
+        emitter.setRotateSpeed(0);
         emitter.setSelectRandomImage(true);
-        emitter.setStartColor(ColorRGBA.Yellow);
-        emitter.setEndColor(ColorRGBA.White);
+        emitter.setStartColor(ColorRGBA.Cyan);
+        emitter.setEndColor(new ColorRGBA(0,0,0,0));
         emitter.setGravity(0,1, 0);
-        emitter.getParticleInfluencer().setVelocityVariation(1.0f);
-        emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, 4, 0));
-        emitter.setStartSize(2f);
-        emitter.setEndSize(0.5f);
+        emitter.getParticleInfluencer().setVelocityVariation(0.5f);
+        emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, 7, 0));
+        emitter.setStartSize(0.5f);
+        emitter.setEndSize(1f);
         emitter.setLowLife(0.5f);
         emitter.setHighLife(MAXLIFETIME);
         emitter.setParticlesPerSec(0);
         emitter.setLocalTranslation(location);
+				emitter.setFacingVelocity(true);
         parent.attachChild(emitter);
         emitter.emitAllParticles();
         emitter.addControl(this);
