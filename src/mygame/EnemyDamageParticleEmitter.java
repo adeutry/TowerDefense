@@ -53,7 +53,7 @@ public class EnemyDamageParticleEmitter extends AbstractControl{
         emitter.setImagesY(1); // 3x3 texture animation
         emitter.setRotateSpeed(0);
         emitter.setSelectRandomImage(true);
-        emitter.setStartColor(ColorRGBA.Cyan);
+        emitter.setStartColor(ColorRGBA.Red);
         emitter.setEndColor(new ColorRGBA(0,0,0,0));
         emitter.setGravity(0,1, 0);
         emitter.getParticleInfluencer().setVelocityVariation(0.5f);

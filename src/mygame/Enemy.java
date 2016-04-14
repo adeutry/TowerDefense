@@ -26,7 +26,7 @@ public class Enemy extends Node {
 				
 				public void receiveDamage(float dmg)
 				{
-						new TowerDamageParticleEmitter((SimpleApplication)main, this, Vector3f.ZERO);
+						new EnemyDamageParticleEmitter((SimpleApplication)main, this, Vector3f.ZERO);
 						//check if enemy is dead
 						if( (this.hp -= dmg) <= 0 )
 						{

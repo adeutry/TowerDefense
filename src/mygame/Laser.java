@@ -23,12 +23,16 @@ public class Laser extends Node {
     Geometry laserBeam;
     Cylinder laserBeamCylinder;
     Material beamMat;
+		private static float LIFETIME = 0.4f;
+		private float laserTimer = 0;
+		private boolean  shooting = false;
+		Main main;
     
     
-    public Laser(AssetManager am)
+    public Laser(AssetManager am, Main main)
     {
+				this.main = main;
         beamMat = new Material(am , "Common/MatDefs/Misc/Unshaded.j3md");
-
         beamMat.setColor("Color", ColorRGBA.Orange);
         
     }
@@ -39,7 +43,7 @@ public class Laser extends Node {
         float dist = this.getLocalTranslation().distance(pos);
         laserBeamCylinder = new Cylinder(20 , 50 , .1f , dist, true);
         laserBeam = new Geometry("laserBeam" , laserBeamCylinder);
-        laserBeam.setMaterial(beamMat);
+        laserBeam.setMaterial(main.laserGlow);
         laserBeam.setLocalTranslation(0, 0, dist/2);        
         Vector3f relativeVector = pos.subtract(this.getLocalTranslation());
         
@@ -55,11 +59,23 @@ public class Laser extends Node {
    
         this.attachChild(laserBeam);     
         this.setLocalRotation(q);
+				shooting = true;
      
     }
     
     public void update(float tpf)
     {
-        
+				if(shooting)
+				{
+						laserTimer += tpf;		
+						laserBeam.setLocalScale(1, (LIFETIME - laserTimer)/LIFETIME, 1);
+						if(laserTimer >= LIFETIME)
+						{
+							  this.detachAllChildren();
+								shooting =false;
+								laserTimer = 0;
+						}
+				}
+				
     }
 }

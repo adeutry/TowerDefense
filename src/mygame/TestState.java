@@ -39,6 +39,7 @@ public class TestState extends AbstractAppState implements ActionListener {
 				
 				//enemy
 				TestEnemy enemy = new TestEnemy(main, new Vector3f(10f,0,0));
+				main.enemies.add(enemy);
 				main.getRootNode().attachChild(t1);
 				main.getRootNode().attachChild(enemy);
 				
@@ -48,10 +49,7 @@ public class TestState extends AbstractAppState implements ActionListener {
 				cylGeo.rotate(0, FastMath.HALF_PI, 0);
 				cylGeo.setMaterial(main.laserGlow);
 				main.getRootNode().attachChild(cylGeo);
-				
-				
-				
-				
+			
         //Keys
         InputManager inputManager = main.getInputManager();
         inputManager.addMapping("Menu", new KeyTrigger(KeyInput.KEY_SPACE));

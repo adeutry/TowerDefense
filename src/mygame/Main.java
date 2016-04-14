@@ -72,7 +72,7 @@ public class Main extends SimpleApplication {
 
         StartScreenState startScreen = new StartScreenState();
 				stateManager.attach(startScreen);
-//				
+			
 //				TestState testState = new TestState();
 //        stateManager.attach(testState);
     }

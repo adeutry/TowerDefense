@@ -37,7 +37,7 @@ public class Tower extends Node {
         Material mat = new Material(main.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);
         g.setMaterial(mat);
-				this.towerLaser = new Laser(main.getAssetManager());
+				this.towerLaser = new Laser(main.getAssetManager(), main);
 				this.attachChild((Node)towerLaser);
 				this.addControl(new TowerControl(this));
         this.attachChild(g);
@@ -119,6 +119,9 @@ public class Tower extends Node {
 						//if tower is dead keep moving it down
 						if(!tower.isAlive())
 								tower.move(0, -tpf, 0);
+						
+						//update the laser tower
+						tower.towerLaser.update(tpf);
 				}
 
 				@Override
