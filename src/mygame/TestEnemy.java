@@ -39,6 +39,12 @@ public class TestEnemy extends Enemy {
     this.attachChild(g);
 
   }
+	
+	@Override
+	public void die()
+	{
+			this.removeFromParent();
+	}
 
   public class TestEnemyControl extends EnemyControl {
 

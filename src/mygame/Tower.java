@@ -75,9 +75,12 @@ public class Tower extends Node {
 				Tower tower;
 				Enemy target;
 				
-				private static final float ATTACK_RANGE = 2f;
+				//how far away the towers can attack
+				private static final float ATTACK_RANGE = 10f;
+				//how often they attack
 				private float ATTACK_COOLDOWN = 2f;
-				private float ATTACK_DMG = 2f;
+				//how much damage the towers do
+				private float ATTACK_DMG = 40f;
 				private float attackTimer = 0;
 				private float time = 0;
 				private int state;
@@ -100,7 +103,7 @@ public class Tower extends Node {
 						}
 						
 						//if our target is alive check if we can attack them
-						if(haveTarget)
+						if(haveTarget && tower.isAlive())
 						{
 								attackTimer+=tpf;
 								if(attackTimer >= ATTACK_COOLDOWN)
@@ -158,7 +161,7 @@ public class Tower extends Node {
 
 								//check to see if it is closer than the closest tower
 								//we current have
-								if (distTo < minDist) {
+								if ( (distTo < minDist) && (distTo < ATTACK_RANGE) ) {
 									newTarget = e;
 									minDist = distTo;
 								}
