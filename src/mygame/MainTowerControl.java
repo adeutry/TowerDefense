@@ -21,7 +21,8 @@ public class MainTowerControl extends Node implements AnalogListener{
     float yDir=0;
     float xDir=0;
     float zDir=0;
-    float speed=(float) 1.5;
+    // Vector3f Dir;
+    float speed=(float) 1.25;
     
     Application app;
     Main main;
@@ -34,9 +35,13 @@ public class MainTowerControl extends Node implements AnalogListener{
         this.m=m;
         this.app=app;
         this.main=(Main) app;
+        //camera stuff
         yDir=6;
         xDir=0;
         zDir=-5;
+        // Dir = new Vector3f(zDir,xDir,zDir);
+         
+         
         System.out.println(yDir+ " " + xDir + " " + zDir);
         
         totalTime = System.currentTimeMillis();
@@ -69,24 +74,70 @@ public class MainTowerControl extends Node implements AnalogListener{
 
     public void onAnalog(String name, float value, float tpf) {
             if(name.equals("W")){
+               
+                Vector3f Dir = new Vector3f(xDir,yDir,zDir);
+            
+                yDir+=tpf*7;
+                m.Head.lookAt(Dir, Vector3f.UNIT_Y);
+                main.getCamera().lookAt(Dir, Vector3f.UNIT_Y);
+                System.out.println(yDir);
+                
+                /*
+                Vector3f rottt = new Vector3f(xDir,yDir,zDir);
+                m.Head.lookAt(rottt, rottt);
+                
                m.Head.rotate(value*speed, 0, 0);
                 //yDir+=value*speed*4;
-               yDir+=tpf*5;
-            main.getCamera().lookAt(new Vector3f(xDir, yDir, zDir), Vector3f.UNIT_Y);
+               yDir+=tpf*7;
+               main.getCamera().lookAt(new Vector3f(xDir, yDir, zDir), Vector3f.UNIT_Y);
                 //System.out.println("up");
+                * 
+                * **/
+                
             }else if(name.equals("S")){
-                yDir-=tpf*5;
+                
+                
+                Vector3f Dir = new Vector3f(xDir,yDir,zDir);
+                
+                yDir-=tpf*7;
+                m.Head.lookAt(Dir, Vector3f.UNIT_Y);
+                main.getCamera().lookAt(Dir, Vector3f.UNIT_Y);
+                System.out.println(yDir);
+                /*
+                yDir-=tpf*7;
                  m.Head.rotate(-value*speed, 0, 0);
             main.getCamera().lookAt(new Vector3f(xDir, yDir, zDir), Vector3f.UNIT_Y);
                 //System.out.println("look down");
+                * */
             }else if(name.equals("A")){
-                 xDir-=tpf*5;
+                
+                Vector3f Dir = new Vector3f(xDir,yDir,zDir);
+                
+                    xDir-=tpf*7;
+                m.Head.lookAt(Dir, Vector3f.UNIT_Y);
+                main.getCamera().lookAt(Dir, Vector3f.UNIT_Y);
+                System.out.println(yDir);
+                
+                /*
+                 xDir-=tpf*7;
                  m.Head.rotate(0, value*speed, 0);
             main.getCamera().lookAt(new Vector3f(xDir, yDir, zDir), Vector3f.UNIT_Y);
+            * */
             }else if(name.equals("D")){
-                 xDir+=tpf*5;
+                
+                
+                Vector3f Dir = new Vector3f(xDir,yDir,zDir);
+                
+                    xDir+=tpf*7;
+                m.Head.lookAt(Dir, Vector3f.UNIT_Y);
+                main.getCamera().lookAt(Dir, Vector3f.UNIT_Y);
+                System.out.println(yDir);
+                
+                /*
+                 xDir+=tpf*7;
                 m.Head.rotate(0,-value*speed,0);
             main.getCamera().lookAt(new Vector3f(xDir, yDir, zDir), Vector3f.UNIT_Y);
+            * */
             }
     }
 }

@@ -178,7 +178,7 @@ public class Main extends SimpleApplication {
     }
     
       //for mainTower crosshair
-       public void initCrossHairs() {
+     public void initCrossHairs() {
         guiNode.detachAllChildren();
         guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
         BitmapText ch = new BitmapText(guiFont, false);
@@ -186,7 +186,7 @@ public class Main extends SimpleApplication {
         ch.setText("+");       
         ch.setLocalTranslation( // center
                 settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
-                settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
+                settings.getHeight() / 2 + ch.getLineHeight() / 2 + -25, 0);
         guiNode.attachChild(ch);
     }
 }
