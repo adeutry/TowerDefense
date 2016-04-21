@@ -48,6 +48,7 @@ public class TestEnemy extends Enemy {
 	{
 			new SingleParticleEmitter((SimpleApplication)main, this, Vector3f.ZERO, "enemyDeath");
 			g.removeFromParent();
+			main.enemyCount--;
 	}
 
   public class TestEnemyControl extends EnemyControl {

@@ -38,6 +38,7 @@ public class Main extends SimpleApplication {
     private Nifty nifty;
 		public ArrayList<Tower> towers;
 		public ArrayList<Enemy> enemies;
+		public int enemyCount = 0;
                  /**
      * Physics for collision
      */

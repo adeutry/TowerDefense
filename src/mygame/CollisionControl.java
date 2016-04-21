@@ -31,7 +31,7 @@ public class CollisionControl extends AbstractControl {
         CollisionResults results = new CollisionResults();
         int i = 0;
         LinkedList<Spatial> objB = new LinkedList<Spatial>();
-        for (Spatial b : main.getRootNode().getChildren()) {
+        for (Spatial b : main.towers) {
             if (b != a) {
                 BoundingVolume bv = b.getWorldBound();
                 a.collideWith(bv, results);
