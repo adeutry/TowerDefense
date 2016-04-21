@@ -5,19 +5,25 @@
 package mygame;
 
 import com.jme3.app.Application;
+import com.jme3.bounding.BoundingVolume;
+import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
+import com.jme3.scene.control.AbstractControl;
+import java.util.ArrayList;
 
 /**
  *
  * @author mikey
  */
-public class MainTowerControl extends Node implements AnalogListener{
+public class MainTowerControl extends AbstractControl implements AnalogListener{
     float yDir=0;
     float xDir=0;
     float zDir=0;
@@ -30,6 +36,8 @@ public class MainTowerControl extends Node implements AnalogListener{
     ActionListener actionListener;
     long totalTime, currentTime;
     long HALF_SEC = 500;
+		ArrayList<Node> collideList;
+		boolean shooting = false;
 
     MainTowerControl(Application app,final MainTower m) {
         this.m=m;
@@ -41,6 +49,7 @@ public class MainTowerControl extends Node implements AnalogListener{
         zDir=-5;
         // Dir = new Vector3f(zDir,xDir,zDir);
          
+				collideList = new ArrayList<Node>();
          
         System.out.println(yDir+ " " + xDir + " " + zDir);
         
@@ -48,17 +57,47 @@ public class MainTowerControl extends Node implements AnalogListener{
         
         actionListener = new ActionListener() {
         public void onAction(String name, boolean isPressed, float tpf) {
-         if(name.equals("shoot")){
+         if(name.equals("shoot") && !shooting){
                m.Head.attachChild(m.laserGeom);
                m.Head.attachChild(m.laserNode);
+							 shooting = true;
                }
             }
         };
         initControls();
     }
     
+		@Override
+		protected void controlUpdate(float tpf)
+		{
+					//laser detach control
+				currentTime = System.currentTimeMillis();
+			 if (currentTime - totalTime >= HALF_SEC) {
+							 m.Head.detachChild(m.laserGeom);
+							 m.Head.detachChild(m.laserNode);
+					 totalTime = currentTime; // Reset to now.
+					 shooting = false;
+					 collideList.clear();
+
+			 }else if(shooting){
+					 CollisionResults res = new CollisionResults();
+					 for(Enemy e: main.enemies)
+					 {
+							 BoundingVolume bv = e.getWorldBound();
+							 m.Head.getChild("laser").collideWith(bv, res);
+							 if( (res.size() > 0) && !collideList.contains(e))
+							 {
+									 collideList.add(e);
+									 System.out.println("collision occured!");
+									 e.receiveDamage(40);
+							 }
+							 res.clear();
+					 }
+					 res.clear();
+			 }
+		}
     
-       private void initControls(){    
+    private void initControls(){    
            
 	   InputManager inputManager = main.getInputManager();
            inputManager.addMapping("W", new KeyTrigger(KeyInput.KEY_T));
@@ -75,12 +114,14 @@ public class MainTowerControl extends Node implements AnalogListener{
     public void onAnalog(String name, float value, float tpf) {
             if(name.equals("W")){
                
+								
+								yDir+=tpf*7;
                 Vector3f Dir = new Vector3f(xDir,yDir,zDir);
             
-                yDir+=tpf*7;
+                
                 m.Head.lookAt(Dir, Vector3f.UNIT_Y);
                 main.getCamera().lookAt(Dir, Vector3f.UNIT_Y);
-                System.out.println(yDir);
+                //System.out.println(yDir);
                 
                 /*
                 Vector3f rottt = new Vector3f(xDir,yDir,zDir);
@@ -96,13 +137,13 @@ public class MainTowerControl extends Node implements AnalogListener{
                 
             }else if(name.equals("S")){
                 
-                
+                yDir-=tpf*7;
                 Vector3f Dir = new Vector3f(xDir,yDir,zDir);
                 
-                yDir-=tpf*7;
+                
                 m.Head.lookAt(Dir, Vector3f.UNIT_Y);
                 main.getCamera().lookAt(Dir, Vector3f.UNIT_Y);
-                System.out.println(yDir);
+                //System.out.println(yDir);
                 /*
                 yDir-=tpf*7;
                  m.Head.rotate(-value*speed, 0, 0);
@@ -111,12 +152,13 @@ public class MainTowerControl extends Node implements AnalogListener{
                 * */
             }else if(name.equals("A")){
                 
+								xDir-=tpf*7;
                 Vector3f Dir = new Vector3f(xDir,yDir,zDir);
                 
-                    xDir-=tpf*7;
+                    
                 m.Head.lookAt(Dir, Vector3f.UNIT_Y);
                 main.getCamera().lookAt(Dir, Vector3f.UNIT_Y);
-                System.out.println(yDir);
+                //System.out.println(yDir);
                 
                 /*
                  xDir-=tpf*7;
@@ -125,13 +167,13 @@ public class MainTowerControl extends Node implements AnalogListener{
             * */
             }else if(name.equals("D")){
                 
-                
+                xDir+=tpf*7;
                 Vector3f Dir = new Vector3f(xDir,yDir,zDir);
                 
-                    xDir+=tpf*7;
+                    
                 m.Head.lookAt(Dir, Vector3f.UNIT_Y);
                 main.getCamera().lookAt(Dir, Vector3f.UNIT_Y);
-                System.out.println(yDir);
+                //System.out.println(yDir);
                 
                 /*
                  xDir+=tpf*7;
@@ -140,4 +182,9 @@ public class MainTowerControl extends Node implements AnalogListener{
             * */
             }
     }
+
+		@Override
+		protected void controlRender(RenderManager rm, ViewPort vp) {
+				
+		}
 }

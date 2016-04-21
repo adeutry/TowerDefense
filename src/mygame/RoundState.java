@@ -3,18 +3,23 @@ package mygame;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.bounding.BoundingVolume;
+import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import java.util.ArrayList;
 
 public class RoundState extends AbstractAppState implements ActionListener {
 
   Main main;
   private String newMappings[];
   Tower[] towers = new Tower[10];
+	ArrayList<Node> collideList;
   //How often enemies are spawned. A lower value increases the spawn rate.
   private static final float ENEMY_SPAWN_RATE = 3f;
   //how far away from the origin the enemies will spawn
@@ -35,27 +40,22 @@ public class RoundState extends AbstractAppState implements ActionListener {
 
   @Override
   public void initialize(AppStateManager stateManager, Application app) {
-    this.main = (Main) app;
+    
+			this.main = (Main) app;
     main.stateInfoText.setText("state: RoundState\nPause Game: P\nEnd Screen: Space");
-
-    //Camera
-//    main.getCamera().setLocation(new Vector3f(0, 8, 0));
-//    main.getCamera().lookAt(new Vector3f(0, 0, -15), Vector3f.UNIT_Y);
-//    main.getFlyByCamera().setEnabled(true);
-
-
+		collideList = new ArrayList<Node>();
+		
     //Keys
     InputManager inputManager = main.getInputManager();
-    //inputManager.clearMappings();
     inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_P));
     inputManager.addMapping("End", new KeyTrigger(KeyInput.KEY_SPACE));
     inputManager.addListener(this, newMappings = new String[]{"Pause", "End"});
 
 
-         //Add main tower + controls
-          tow = new MainTower(main);
-    //Add a testEnemy
-    //main.getRootNode().attachChild(new TestEnemy(main));
+		//Add main tower + controls
+		 tow = new MainTower(main);
+    
+					
   }
 
   @Override
@@ -76,26 +76,6 @@ public class RoundState extends AbstractAppState implements ActionListener {
       //te.setLocalTranslation(posX, 0, posZ);
       enemySpawnTimer = 0;
     }
-
-		
-//laser detach control
-		 currentTime = System.currentTimeMillis();
-		if (currentTime - totalTime >= HALF_SEC) {
-						tow.Head.detachChild(tow.laserGeom);
-						tow.Head.detachChild(tow.laserNode);
-				totalTime = currentTime; // Reset to now.
-
-		}
-    
-    
-		
-		if(main.homeTower!=null)
-		{
-				if(!main.homeTower.isAlive())
-				{
-						
-				}
-		}
   }
 
   public void onAction(String name, boolean isPressed, float tpf) {

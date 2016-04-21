@@ -48,7 +48,7 @@ public class Tower extends Node {
 		{
 				
 				new TowerDamageParticleEmitter((SimpleApplication)main, this, Vector3f.ZERO);
-				System.out.println("Ow!, I took " + dmg + "damage!");
+				//System.out.println("Ow!, I took " + dmg + "damage!");
 				if((this.hp -= dmg) <= 0)
 				{
 						System.out.println("Oh no! I have died...");
@@ -108,7 +108,7 @@ public class Tower extends Node {
 								attackTimer+=tpf;
 								if(attackTimer >= ATTACK_COOLDOWN)
 								{
-										System.out.println("tower attacking enemy!");
+										//System.out.println("tower attacking enemy!");
 										towerLaser.shoot(target.getLocalTranslation()
 														.subtract(tower.getWorldTranslation()));
 										target.receiveDamage(ATTACK_DMG);
@@ -136,7 +136,6 @@ public class Tower extends Node {
 				//and set it as its target. If this enemy currently has a target 
 				//it will change its target if it finds a closer tower. 
 				void findTarget() {
-					System.out.println("Tower looking for target!");
 					float distTo, minDist;
 					Enemy newTarget;
 
@@ -170,7 +169,7 @@ public class Tower extends Node {
 					}
 
 					if (newTarget != null) {
-							System.out.println("found new target!");
+							//System.out.println("found new target!");
 						target = newTarget;
 						haveTarget = true;
 					}
