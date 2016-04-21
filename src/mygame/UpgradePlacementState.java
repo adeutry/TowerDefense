@@ -71,6 +71,7 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
             quitGame();
         }
         if (name.equals("Forward") && isPressed) {
+						System.out.println("forward triggered");
             //Places tower 1 space forward
             tower.move(new Vector3f(0, 0, -1));
             if (main.hasObject(tower.getControl(CollisionControl.class).getCollisions(), Tower.class)) {
@@ -81,6 +82,7 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
             }
         }
         if (name.equals("Backward") && isPressed) {
+						System.out.println("backward triggered");
             //Places tower 1 space backward
             tower.move(new Vector3f(0, 0, 1));
             if (main.hasObject(tower.getControl(CollisionControl.class).getCollisions(), Tower.class)) {
@@ -92,7 +94,8 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
 
         }
         if (name.equals("Left") && isPressed) {
-            //Places tower 1 space left
+            System.out.println("left triggered");
+						//Places tower 1 space left
             tower.move(new Vector3f(-1, 0, 0));
             if (main.hasObject(tower.getControl(CollisionControl.class).getCollisions(), Tower.class)) {
                 canPlace = false;
@@ -102,6 +105,7 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
             }
         }
         if (name.equals("Right") && isPressed) {
+						System.out.println("right triggered");
             //Places tower 1 space right
             tower.move(new Vector3f(1, 0, 0));
             if (main.hasObject(tower.getControl(CollisionControl.class).getCollisions(), Tower.class)) {
@@ -158,6 +162,11 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
     @Override
     public void cleanup() {
         System.out.println("cleaning up upgrade placement screen...");
+				for(Tower t: main.towers)
+				{
+						if(t.getControl(CollisionControl.class) != null)
+								t.getControl(CollisionControl.class).setEnabled(false);
+				}
         main.deleteInputMappings(newMappings);
     }
 }

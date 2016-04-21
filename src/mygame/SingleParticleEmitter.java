@@ -99,7 +99,7 @@ public class SingleParticleEmitter extends AbstractControl{
 				{
 						emitter = new ParticleEmitter("Debris", ParticleMesh.Type.Triangle, 70);
 						Material debris_mat = new Material(sa.getAssetManager(), "Common/MatDefs/Misc/Particle.j3md");
-						debris_mat.setTexture("Texture", sa.getAssetManager().loadTexture("Effects/Explosion/spark.png"));
+						debris_mat.setTexture("Texture", sa.getAssetManager().loadTexture("Effects/Explosion/flame.png"));
 						emitter.setMaterial(debris_mat);
 						emitter.setImagesX(1);
 						emitter.setImagesY(1); // 3x3 texture animation

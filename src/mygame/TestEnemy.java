@@ -4,6 +4,7 @@
  */
 package mygame;
 
+import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -20,6 +21,8 @@ import com.jme3.scene.shape.Sphere;
  * @author adeut_000
  */
 public class TestEnemy extends Enemy {
+		
+		Geometry g;
 
   public TestEnemy(Main main, Vector3f pos) {
     this.hp = 100;
@@ -31,7 +34,7 @@ public class TestEnemy extends Enemy {
 
   private void initModel(Main main) {
     Sphere s = new Sphere(10, 10, 0.5f);
-    Geometry g = new Geometry("TestEnemy", s);
+    g = new Geometry("TestEnemy", s);
 		g.move(0, 0.4f, 0);
     Material mat = new Material(main.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
     mat.setColor("Color", ColorRGBA.White);
@@ -43,7 +46,8 @@ public class TestEnemy extends Enemy {
 	@Override
 	public void die()
 	{
-			this.removeFromParent();
+			new SingleParticleEmitter((SimpleApplication)main, this, Vector3f.ZERO, "enemyDeath");
+			g.removeFromParent();
 	}
 
   public class TestEnemyControl extends EnemyControl {
@@ -58,9 +62,11 @@ public class TestEnemy extends Enemy {
 		private float time = 0;
     private int state;
     Tower target;
+		Enemy e;
 
     public TestEnemyControl(Node enemyNode) {
       this.testEnemyNode = enemyNode;
+			this.e = (Enemy)enemyNode;
 
       //find first target
       this.target = null;
@@ -86,7 +92,7 @@ public class TestEnemy extends Enemy {
       }
 			
 			//if target is within range, attack
-			if((target!= null) &&
+			if(e.alive && (target!= null) &&
 					target.isAlive() && target.getLocalTranslation()
 							.distance(testEnemyNode.getLocalTranslation()) <= ATTACK_RANGE)
 			{

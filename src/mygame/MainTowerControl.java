@@ -83,15 +83,19 @@ public class MainTowerControl extends AbstractControl implements AnalogListener{
 					 CollisionResults res = new CollisionResults();
 					 for(Enemy e: main.enemies)
 					 {
-							 BoundingVolume bv = e.getWorldBound();
-							 m.Head.getChild("laser").collideWith(bv, res);
-							 if( (res.size() > 0) && !collideList.contains(e))
+							 if(e.alive)
 							 {
-									 collideList.add(e);
-									 System.out.println("collision occured!");
-									 e.receiveDamage(40);
+									 BoundingVolume bv = e.getWorldBound();
+										m.Head.getChild("laser").collideWith(bv, res);
+										if( (res.size() > 0) && !collideList.contains(e))
+										{
+												collideList.add(e);
+												System.out.println("collision occured!");
+												e.receiveDamage(40);
+										}
+										res.clear();
 							 }
-							 res.clear();
+							 
 					 }
 					 res.clear();
 			 }
