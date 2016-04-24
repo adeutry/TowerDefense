@@ -19,53 +19,43 @@ public class RoundState extends AbstractAppState implements ActionListener {
   Main main;
   private String newMappings[];
   Tower[] towers = new Tower[10];
-	ArrayList<Node> collideList;
-	private boolean active = true;
-	
+  ArrayList<Node> collideList;
+  private boolean active = true;
   //How often enemies are spawned. A lower value increases the spawn rate.
-	
-  private static final float ENEMY_SPAWN_RATE = 3f;
-	
+  private static final float ENEMY_SPAWN_RATE = 1f;
   //how far away from the origin the enemies will spawn
-	
-  private static final float ENEMY_SPAWN_OFFSET = 30f;
-	
+  private static final float ENEMY_SPAWN_OFFSET = 10f;
   //the maximum angle the enemies are allowed to spawn. If the angle = 180deg
   //the enemies will spawn from any angle on the negative Z axis side. If 
   //angle = 360 the enemies will spawn from any angle around the tower
-  
-	private static final float ENEMY_SPAWN_ANGLE_RANGE = 70f;
-	private static final float MAX_ROUND_TIME = 10f;
+  private static final float ENEMY_SPAWN_ANGLE_RANGE = 70f;
+  private static final float MAX_ROUND_TIME = 1000f;
   private float enemySpawnTimer = 0;
-	private float roundTime = 0;
-  
-		//MainTower
-		MainTower tow;
-		//lasers
-		long totalTime, currentTime;
-		long HALF_SEC = 500;
-		
-  
-  
+  private float roundTime = 0;
+  //MainTower
+  MainTower tow;
+  //lasers
+  long totalTime, currentTime;
+  long HALF_SEC = 500;
 
   @Override
   public void initialize(AppStateManager stateManager, Application app) {
-    
-			this.main = (Main) app;
+
+    this.main = (Main) app;
     main.stateInfoText.setText("state: RoundState\nPause Game: P\nEnd Screen: Space");
-		collideList = new ArrayList<Node>();
-		main.enemyCount = 0;
-		
+    collideList = new ArrayList<Node>();
+    main.enemyCount = 0;
+
     //Keys
     InputManager inputManager = main.getInputManager();
     inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_P));
     inputManager.addMapping("End", new KeyTrigger(KeyInput.KEY_SPACE));
     inputManager.addListener(this, newMappings = new String[]{"Pause", "End"});
 
-		//Add main tower + controls
-		 tow = new MainTower(main);
-    
-					
+    //Add main tower + controls
+    tow = new MainTower(main);
+
+
   }
 
   @Override
@@ -73,7 +63,7 @@ public class RoundState extends AbstractAppState implements ActionListener {
     //increment the enemy spawn timer and if it exceeds the enemy spawn rate
     //spawn another enemy
     enemySpawnTimer += tpf;
-    if ( active && (enemySpawnTimer >= ENEMY_SPAWN_RATE)) {
+    if (active && (enemySpawnTimer >= ENEMY_SPAWN_RATE)) {
       System.out.println("Spawning enemy!");
       float angle = ((float) Math.random() - 0.5f) * ENEMY_SPAWN_ANGLE_RANGE * FastMath.DEG_TO_RAD;
       System.out.println("Angle: " + angle);
@@ -81,29 +71,38 @@ public class RoundState extends AbstractAppState implements ActionListener {
       float posZ = -FastMath.cos(angle) * ENEMY_SPAWN_OFFSET;
       System.out.println("posX: " + posX + "\nposY: " + posZ + "\n");
       TestEnemy te = new TestEnemy(main, new Vector3f(posX, 0, posZ));
-			main.enemies.add(te);
+      main.enemies.add(te);
       main.getRootNode().attachChild(te);
       //te.setLocalTranslation(posX, 0, posZ);
       enemySpawnTimer = 0;
-			main.enemyCount++;
+      main.enemyCount++;
     }
-		
-		//update the round timer
-		if( active && ((roundTime+=tpf) >= MAX_ROUND_TIME))
-		{
-				active = false;
-				System.out.println("round state deactivated");
-		}
-		
-		//if the round has ended and no more enemies remain we end this round
-		if(!active && (main.enemyCount<=0))
-		{
-				System.out.println("transitioning to break state...");
-				BreakState bs = new BreakState();
-				main.getStateManager().detach(this);
-				main.getStateManager().attach(bs);
-		}
-		
+
+    //update the round timer
+    if (active && ((roundTime += tpf) >= MAX_ROUND_TIME)) {
+      active = false;
+      System.out.println("round state deactivated");
+    }
+
+    //if the round has ended and no more enemies remain we end this round
+    if (!active && (main.enemyCount <= 0)) {
+      System.out.println("transitioning to break state...");
+      BreakState bs = new BreakState();
+      main.getStateManager().detach(this);
+      main.getStateManager().attach(bs);
+    }
+    
+    //check if the main tower is still alive
+    //if not transition to the end screen
+    if(!main.homeTower.isAlive())
+    {
+      //transition to initial break screen
+      AppStateManager asm = main.getStateManager();
+      EndScreenState s = new EndScreenState();
+      asm.detach(this);
+      asm.attach(s);
+    }
+
   }
 
   public void onAction(String name, boolean isPressed, float tpf) {
@@ -129,7 +128,6 @@ public class RoundState extends AbstractAppState implements ActionListener {
   public void cleanup() {
     System.out.println("Cleaning up round state...");
     main.deleteInputMappings(newMappings);
-		main.enemies.clear();
+    main.enemies.clear();
   }
-	
 }
