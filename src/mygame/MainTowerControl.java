@@ -99,6 +99,13 @@ public class MainTowerControl extends AbstractControl implements AnalogListener 
             res.clear();
         }
     }
+		
+		public void resetCam()
+		{
+				yDir = 6;
+        xDir = 0;
+        zDir = -5;
+		}
 
     private void initControls() {
 

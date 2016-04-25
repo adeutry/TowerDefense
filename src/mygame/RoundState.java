@@ -35,7 +35,7 @@ public class RoundState extends AbstractAppState implements ActionListener, Scre
   //the enemies will spawn from any angle on the negative Z axis side. If 
   //angle = 360 the enemies will spawn from any angle around the tower
   private static final float ENEMY_SPAWN_ANGLE_RANGE = 70f;
-  private static final float MAX_ROUND_TIME = 10f;
+  private static final float MAX_ROUND_TIME = 20f;
   private float enemySpawnTimer = 0;
   private float roundTime = 0;
   
@@ -66,7 +66,10 @@ public class RoundState extends AbstractAppState implements ActionListener, Scre
        tow = new MainTower(main);
        main.mainTower = tow;
        main.mainTower.Tower.setName("computer");
-     }
+     }else{
+				 
+				 main.mainTower.Tower.getControl(MainTowerControl.class).resetCam();
+		 }
      
         //Keys
         InputManager inputManager = main.getInputManager();
@@ -137,6 +140,8 @@ public class RoundState extends AbstractAppState implements ActionListener, Scre
     {
       //transition to initial break screen
       AppStateManager asm = main.getStateManager();
+			
+		  tow.Tower.getControl(MainTowerControl.class).resetCam();
       EndScreenState s = new EndScreenState();
       asm.detach(this);
       asm.attach(s);
