@@ -47,6 +47,8 @@ public class Main extends SimpleApplication {
   public Tower homeTower;
   Material whiteGlow;
   Material laserGlow;
+  public int health = 100;
+  public int bit = 0;
 
   public static void main(String[] args) {
     Main app = new Main();
