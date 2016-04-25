@@ -22,14 +22,14 @@ public class RoundState extends AbstractAppState implements ActionListener {
   ArrayList<Node> collideList;
   private boolean active = true;
   //How often enemies are spawned. A lower value increases the spawn rate.
-  private static final float ENEMY_SPAWN_RATE = 2f;
+  private static final float ENEMY_SPAWN_RATE = 3f;
   //how far away from the origin the enemies will spawn
   private static final float ENEMY_SPAWN_OFFSET = 30f;
   //the maximum angle the enemies are allowed to spawn. If the angle = 180deg
   //the enemies will spawn from any angle on the negative Z axis side. If 
   //angle = 360 the enemies will spawn from any angle around the tower
   private static final float ENEMY_SPAWN_ANGLE_RANGE = 70f;
-  private static final float MAX_ROUND_TIME = 20f;
+  private static final float MAX_ROUND_TIME = 10f;
   private float enemySpawnTimer = 0;
   private float roundTime = 0;
   

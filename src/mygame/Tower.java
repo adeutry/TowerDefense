@@ -43,6 +43,7 @@ public abstract class Tower extends Node {
         Material mat = new Material(main.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);
         g.setMaterial(mat);
+        
         this.towerLaser = new Laser(main.getAssetManager(), main);
         this.attachChild((Node) towerLaser);
         this.attachChild(g);
@@ -76,7 +77,7 @@ public abstract class Tower extends Node {
         //how far away the towers can attack
         private float ATTACK_RANGE = 10f;
         //how often they attack
-        private float ATTACK_COOLDOWN = 2f;
+        private float ATTACK_COOLDOWN = 5f;
         //how much damage the towers do
         private float ATTACK_DMG = 40f;
         private float attackTimer = 0;
@@ -106,7 +107,7 @@ public abstract class Tower extends Node {
             if (haveTarget && tower.isAlive()) {
                 attackTimer += tpf;
                 if (attackTimer >= ATTACK_COOLDOWN) {
-                    //System.out.println("tower attacking enemy!");
+                    System.out.println("tower attacking enemy!");
                     towerLaser.shoot(target.getLocalTranslation()
                             .subtract(tower.getWorldTranslation()));
                     target.receiveDamage(ATTACK_DMG);

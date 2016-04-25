@@ -10,6 +10,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import static mygame.Tower.VIRUS;
 
 /**
  *
@@ -21,17 +22,24 @@ public class SpywareTower extends Tower {
   {
     super(main);
     this.main = main;
-   
+    this.enemyPriority = VIRUS;
+    this.strength = 100;
+    this.speed = 2;
+    this.range = 10;
+    
+        
+    //custom spatial
     Spatial s = main.spywareTowerSpatial.clone();
     s.setLocalScale(0.3f);
     Material mat = new Material(main.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
     mat.setColor("Color", ColorRGBA.Red);
     s.setMaterial(mat);
-    this.towerLaser = new Laser(main.getAssetManager(), main);
-    this.attachChild((Node) towerLaser);
+    
+    
     this.addControl(new TowerControl(this));
     this.attachChild(s);
-    this.move(0, -1, 0);
+    this.move(0, -1.55f, 0);
+    this.towerLaser.move(0, 3.2f, 0);
     this.getChild("TowerGeo").removeFromParent();
   }
 }

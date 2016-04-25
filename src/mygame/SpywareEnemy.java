@@ -60,6 +60,7 @@ public class SpywareEnemy extends Enemy {
     private float attackTimer = 0;
     private float time = 0;
     private int state;
+    public int MoneyDrop = 20;
     Tower target;
     Enemy e;
 

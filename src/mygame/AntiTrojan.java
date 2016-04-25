@@ -29,30 +29,33 @@ public class AntiTrojan extends Tower{
         
         
         public AntiTrojan(Main main) {
-        super(main);
+
         
+        
+    super(main);
+    this.main = main;
+    this.enemyPriority = VIRUS;
+    this.strength = 40;
+    this.speed = 2;
+    this.range = 10;
+    this.setName("Antitrojan");
+    
+        
+    //custom spatial
         Spatial s = main.AntiTrojanSpatial.clone();
-        s.setLocalScale(0.3f);
+    s.setLocalScale(0.3f);
     Material mat = new Material(main.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
     mat.setColor("Color", ColorRGBA.Orange);
     s.setMaterial(mat);
     
-       // this.towerLaser = new Laser(main.getAssetManager(), main);
-   // this.attachChild((Node) towerLaser);
-   // this.addControl(new TowerControl(this));
     
-        this.addControl(new Tower.TowerControl(this));
+    this.addControl(new TowerControl(this));
     this.attachChild(s);
-   // this.move(0, -1, 0);
+    this.move(0, -1.55f, 0);
+    this.towerLaser.move(0, 3.2f, 0);
     this.getChild("TowerGeo").removeFromParent();
-    
-        this.enemyPriority = TROJAN;
-        this.strength = 40;
-        this.speed = 11;
-        this.range = 10;
-        this.setName("Antitrojan");
-    
-    
+        
+        
     
     }
         

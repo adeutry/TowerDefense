@@ -11,8 +11,8 @@ public class AntiVirusTower extends Tower {
         super(main);
         this.enemyPriority = VIRUS;
         this.strength = 100;
-        this.speed = 10;
-        this.range = 50;
+        this.speed = 2;
+        this.range = 8;
         this.setName("Antivirus");
         this.addControl(new TowerControl(this));
     }

@@ -99,21 +99,22 @@ public class SingleParticleEmitter extends AbstractControl{
 				{
 						emitter = new ParticleEmitter("Debris", ParticleMesh.Type.Triangle, 70);
 						Material debris_mat = new Material(sa.getAssetManager(), "Common/MatDefs/Misc/Particle.j3md");
-						debris_mat.setTexture("Texture", sa.getAssetManager().loadTexture("Effects/Explosion/flame.png"));
+						debris_mat.setTexture("Texture", sa.getAssetManager().loadTexture("Textures/UI/bits.png"));
 						emitter.setMaterial(debris_mat);
 						emitter.setImagesX(1);
 						emitter.setImagesY(1); // 3x3 texture animation
-						emitter.setRotateSpeed(0);
+						emitter.setRotateSpeed(200.4f);
+                                                emitter.setRandomAngle(true);
 						emitter.setSelectRandomImage(true);
-						emitter.setStartColor(ColorRGBA.Red);
+						emitter.setStartColor(ColorRGBA.White);
 						emitter.setEndColor(new ColorRGBA(0,0,0,0));
-						emitter.setGravity(0,1, 0);
+						emitter.setGravity(0,0, 0);
 						emitter.getParticleInfluencer().setVelocityVariation(0.5f);
 						emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, 7, 0));
 						emitter.setStartSize(0.5f);
 						emitter.setEndSize(1f);
 						emitter.setLowLife(0.5f);
-						emitter.setHighLife(MAXLIFETIME);
+						emitter.setHighLife(2f);
 						emitter.setParticlesPerSec(0);
 						emitter.setLocalTranslation(location);
 						emitter.setFacingVelocity(true);
