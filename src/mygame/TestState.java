@@ -38,7 +38,7 @@ public class TestState extends AbstractAppState implements ActionListener {
 				main.towers.add(t1);
 				
 				//enemy
-				TestEnemy enemy = new TestEnemy(main, new Vector3f(10f,0,0));
+				TestEnemy enemy = new Virus(main, new Vector3f(10f,0,0));
 				main.enemies.add(enemy);
 				main.getRootNode().attachChild(t1);
 				main.getRootNode().attachChild(enemy);

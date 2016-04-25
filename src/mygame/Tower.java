@@ -46,6 +46,7 @@ public abstract class Tower extends Node {
         this.attachChild((Node) towerLaser);
         this.attachChild(g);
         this.move(0, height, 0);
+        this.setName("tower");
     }
 
     public void receiveDamage(float dmg) {
