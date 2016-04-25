@@ -43,7 +43,10 @@ public class Main extends SimpleApplication {
   public ArrayList<Tower> towers;
   public ArrayList<Enemy> enemies;
   public int enemyCount = 0;
-  public String difficulty = "";
+  public  String difficulty = "";
+  public  float diff=1;
+  public float roundDifficultyIncr=0;
+  
   public AudioNode mainSong, explosion,laserSound,demolish;
   public int roundNum = 0;
   /**
@@ -63,7 +66,19 @@ public class Main extends SimpleApplication {
     app.start();
   }
   Spatial spikeBombSpatial, spywareTowerSpatial, AntiTrojanSpatial;
-
+  
+  public void InitializeDifficulty(){
+      if (difficulty.equals("easy")){
+          diff=1;
+      }else if(difficulty.equals("medium")){
+           diff=(float) 1.3;
+      }else{
+           diff=(float) 1.5; 
+      }
+      
+      
+  }
+  
   @Override
   public void simpleInitApp() {
 
@@ -72,6 +87,7 @@ public class Main extends SimpleApplication {
     initModels();
     initGui();
     initAudio();
+    InitializeDifficulty();
 
     //MainTower
     initCrossHairs();

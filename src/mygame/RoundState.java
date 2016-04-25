@@ -102,11 +102,11 @@ public class RoundState extends AbstractAppState implements ActionListener, Scre
       float r = (float)Math.random();
       if(r < testEnemyFreq )
       {
-        te = new Virus(main, new Vector3f(posX, 0, posZ));
+        te = new Virus(main, new Vector3f(posX, 0, posZ), (float) (main.diff+main.roundDifficultyIncr));
       }else if( (r > testEnemyFreq) && (r < testEnemyFreq + trojanFreq) ) {
-        te = new Trojan(main, new Vector3f(posX,0,posZ));
+        te = new Trojan(main, new Vector3f(posX,0,posZ), (float) (main.diff+main.roundDifficultyIncr));
       } else{
-        te = new SpywareEnemy(main, new Vector3f(posX, 0, posZ));
+        te = new SpywareEnemy(main, new Vector3f(posX, 0, posZ),(float) (main.diff+main.roundDifficultyIncr));
       }
       
       main.enemies.add(te);
@@ -124,6 +124,7 @@ public class RoundState extends AbstractAppState implements ActionListener, Scre
 
     //if the round has ended and no more enemies remain we end this round
     if (!active && (main.enemyCount <= 0)) {
+        main.roundDifficultyIncr+=0.1;
       System.out.println("transitioning to break state...");
       BreakState bs = new BreakState();
       main.getStateManager().detach(this);

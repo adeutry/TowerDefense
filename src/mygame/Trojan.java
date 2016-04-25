@@ -23,11 +23,12 @@ import com.jme3.scene.shape.Sphere;
  */
 public class Trojan extends TestEnemy{
 
-    public Trojan(Main main, Vector3f pos) {
+    public Trojan(Main main, Vector3f pos, float dif) {
         super(main, pos);
-        this.hp = 100;
+        this.hp =  (100*dif);
         this.main = main;
         this.bitDrop = 25;
+        this.strength= (this.strength*dif);
         this.towerPriority = ANTITROJAN;
         initModel(main);
         this.setLocalTranslation(pos);

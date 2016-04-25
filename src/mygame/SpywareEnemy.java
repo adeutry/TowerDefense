@@ -23,11 +23,12 @@ import com.jme3.scene.shape.Sphere;
  */
 public class SpywareEnemy extends TestEnemy {
 
-  public SpywareEnemy(Main main, Vector3f pos) {
+  public SpywareEnemy(Main main, Vector3f pos,float dif) {
      super(main, pos);
-    this.hp = 100;
+    this.hp = 100*dif;
     this.bitDrop = 25;
     this.speed = 3;
+    this.strength= (this.strength*dif);
     this.atkSpeed = 4;
     this.main = main;
     this.towerPriority = SPYWARESWEEPER;

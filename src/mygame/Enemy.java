@@ -16,11 +16,11 @@ public class Enemy extends Node {
 
     Main main;
     EnemyControl control;
-    protected int hp = 100;
+    protected float hp = 100;
     public static final int ANTIVIRUS = 0, SPYWARESWEEPER = 1, ANTITROJAN = 2;
     protected static final String towerMap[] = {"antivirus", "spywaresweeper", "antitrojan", "tower"};
     protected float range = 2;
-    protected int strength;
+    protected float strength;
     protected float speed;
     protected float atkSpeed;
     protected int towerPriority = 3;
