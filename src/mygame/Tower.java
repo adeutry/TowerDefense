@@ -71,6 +71,14 @@ public abstract class Tower extends Node {
         new TowerDamageParticleEmitter((SimpleApplication) main, this, Vector3f.ZERO);
         main.demolish.playInstance();
     }
+    
+    public int getHealth(){
+        return (int)this.hp;
+    }
+    
+    public void setHealth(float hp){
+        this.hp = hp;
+    }
 
     public class TowerControl extends AbstractControl {
 

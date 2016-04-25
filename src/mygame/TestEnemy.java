@@ -13,6 +13,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.shape.Sphere;
 
@@ -23,7 +24,7 @@ import com.jme3.scene.shape.Sphere;
 public abstract class TestEnemy extends Enemy {
 
 
-    Geometry g;
+    Spatial g;
 
     public TestEnemy(Main main, Vector3f pos) {
         this.hp = 100;

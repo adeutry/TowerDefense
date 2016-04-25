@@ -13,8 +13,8 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.elements.Element;
-import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import java.util.ArrayList;
@@ -53,6 +53,7 @@ public class RoundState extends AbstractAppState implements ActionListener, Scre
 
     
     this.main = (Main) app;
+    main.getFlyByCamera().setDragToRotate(false);
     main.stateInfoText.setText("state: RoundState\nPause Game: P\nEnd Screen: Space");
     collideList = new ArrayList<Node>();
     main.enemyCount = 0;
@@ -60,17 +61,17 @@ public class RoundState extends AbstractAppState implements ActionListener, Scre
     ENEMY_SPAWN_RATE-=ENEMY_SPAWN_RATE_INCR*main.roundNum;
     
     //Add main tower + controls
-     if(main.mainTower == null)
+     if(main.mainTower == null || main.getRootNode().getChild("computer") == null)
      {
        tow = new MainTower(main);
        main.mainTower = tow;
+       main.mainTower.Tower.setName("computer");
      }
      
         //Keys
         InputManager inputManager = main.getInputManager();
         inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_P));
-        inputManager.addMapping("End", new KeyTrigger(KeyInput.KEY_SPACE));
-        inputManager.addListener(this, newMappings = new String[]{"Pause", "End"});
+        inputManager.addListener(this, newMappings = new String[]{"Pause"});
         main.getNifty().fromXml("Interface/Menus.xml", "hud", this);
 
         // attach the Nifty display to the gui view port as a processor
@@ -80,11 +81,15 @@ public class RoundState extends AbstractAppState implements ActionListener, Scre
 
 @Override
   public void update(float tpf) {
+    
     //increment the enemy spawn timer and if it exceeds the enemy spawn rate
     //spawn another enemy
-        // find old text
-    Element niftyElement = main.getNifty().getCurrentScreen().findElementByName("money");
-    // swap old with new text
+    //Updates HUD data
+    main.health = main.homeTower.getHealth();
+    Label health = main.getNifty().getCurrentScreen().findNiftyControl("hp", Label.class);
+    Label money = main.getNifty().getCurrentScreen().findNiftyControl("money", Label.class);
+    health.setText("Health: " + main.health);
+    money.setText("BIT: " + main.bit);
     enemySpawnTimer += tpf;
     if (active && (enemySpawnTimer >= ENEMY_SPAWN_RATE)) {
       System.out.println("Spawning enemy!");
@@ -160,6 +165,7 @@ public class RoundState extends AbstractAppState implements ActionListener, Scre
   public void cleanup() {
     System.out.println("Cleaning up round state...");
     main.deleteInputMappings(newMappings);
+    main.getGuiViewPort().removeProcessor(main.getNiftyDisplay());
     main.enemies.clear();
   }
 

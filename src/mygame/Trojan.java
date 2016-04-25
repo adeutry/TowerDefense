@@ -21,22 +21,23 @@ import com.jme3.scene.shape.Sphere;
  *
  * @author mikey
  */
-public class Trojan extends Enemy{
-
-    Geometry g;
-    int health=100; 
+public class Trojan extends TestEnemy{
 
     public Trojan(Main main, Vector3f pos) {
-        this.hp = health;
+        super(main, pos);
+        this.hp = 100;
         this.main = main;
-        //this.bitDrop = 25; 
+        this.bitDrop = 25;
+        this.towerPriority = ANTITROJAN;
         initModel(main);
         this.setLocalTranslation(pos);
+        this.setName("trojan");
         
         this.addControl(new Trojan.TrojanControl(this));
     }
 
     private void initModel(Main main) {
+        this.detachChild(g);
         Dome mesh = new Dome(Vector3f.ZERO, 2, 4, .5f,false); // Pyramid
         g = new Geometry("Trojan", mesh);
         g.move(0, 0f, 0);
@@ -46,15 +47,7 @@ public class Trojan extends Enemy{
         this.attachChild(g);
 
     }
-
-    @Override
-    public void die() {
-        new SingleParticleEmitter((SimpleApplication) main, this, Vector3f.ZERO, "enemyDeath");
-        g.removeFromParent();
-        main.explosion.playInstance();
-        main.enemyCount--;
-    }
-
+    
     public class TrojanControl extends EnemyControl {
 
         Node testEnemyNode;

@@ -14,6 +14,7 @@ public class AntiVirusTower extends Tower {
         this.speed = 10;
         this.range = 8;
         this.addControl(new TowerControl(this));
+        this.setName("antivirus");
     }
     
 }

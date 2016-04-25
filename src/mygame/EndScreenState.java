@@ -87,5 +87,9 @@ public class EndScreenState extends AbstractAppState implements ActionListener {
     @Override
     public void cleanup() {
         main.deleteInputMappings(newMappings);
+        main.getGuiNode().detachChild(gameOverPic);
+        main.homeTower.setHealth(100);
+        main.getRootNode().detachAllChildren();
+        main.initBG();
     }
 }

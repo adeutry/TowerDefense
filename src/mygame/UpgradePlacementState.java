@@ -20,6 +20,7 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
 
     Main main;
     private String newMappings[];
+    public static final int price[] = new int[]{300, 100, 200};
     private String upgrade;
     protected Tower tower;
     private boolean canPlace;
@@ -40,7 +41,7 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
         //Keys
         InputManager inputManager = main.getInputManager();
         inputManager.deleteMapping("StartRound");
-        inputManager.addMapping("Confirm", new KeyTrigger(KeyInput.KEY_SPACE));
+        inputManager.addMapping("Confirm", new KeyTrigger(KeyInput.KEY_RETURN));
         inputManager.addMapping("Cancel", new KeyTrigger(KeyInput.KEY_BACK));
         inputManager.addMapping("Quit", new KeyTrigger(KeyInput.KEY_ESCAPE));
         inputManager.addMapping("Forward", new KeyTrigger(KeyInput.KEY_UP));
@@ -117,6 +118,8 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
         if (!canPlace) {
             System.out.println("Can't place tower here. Please move it");
         } else {
+            int upType = Integer.parseInt(this.upgrade.substring(3));
+            main.bit -= price[upType-1];
             System.out.println("Upgrade placed. Returning to upgrade screen...");
             AppStateManager asm = main.getStateManager();
             BreakState bs = new BreakState();

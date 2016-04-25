@@ -16,6 +16,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.debug.Grid;
 import com.jme3.scene.shape.Box;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
@@ -32,6 +33,7 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         this.main = (Main) app;
+        System.out.println("Funds: " + main.bit);
         main.health = 100;
         main.stateInfoText.setText("state: BreakScreenState\nStart Round: Space");
         if (main.getRootNode().getChild("floorGrid") == null) {
@@ -42,13 +44,15 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
         
         //Keys
         InputManager inputManager = main.getInputManager();
-        inputManager.addMapping("StartRound", new KeyTrigger(KeyInput.KEY_SPACE));
+        inputManager.addMapping("StartRound", new KeyTrigger(KeyInput.KEY_RETURN));
         inputManager.addListener(this, newMappings = new String[]{"StartRound"});
         main.getNifty().fromXml("Interface/Menus.xml", "upgrade", this);
 
         // attach the Nifty display to the gui view port as a processor
         main.getGuiViewPort().addProcessor(main.getNiftyDisplay());
         main.getFlyByCamera().setDragToRotate(true);
+        
+        //Updates bit amount in buy menu
 
         //add the ground
         Box b = new Box(100, 0.2f, 100);
@@ -60,7 +64,9 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
         main.getRootNode().attachChild(g);
 
         //set up home tower
+        if(main.homeTower == null || main.getRootNode().getChild("base") == null){
         Tower newTower = new AntiVirusTower(main);
+        newTower.setName("base");
         main.towers.add(newTower);
         main.homeTower = newTower;
         newTower.removeControl(TowerControl.class);
@@ -68,16 +74,17 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
         towGeom.getMaterial().setColor("Color", ColorRGBA.Cyan);
         newTower.move(new Vector3f(0, 0, 0));
         main.getRootNode().attachChild(newTower);
+        }
+        
+        main.homeTower.setHealth(100);
 
     }
 
     @Override
     public void update(float tpf) {
-        // find old text
-//Element niftyElement = main.getNifty().getCurrentScreen().findElementByName("money");
-//// swap old with new text
-//        System.out.println("render: " + niftyElement.getRenderer(TextRenderer.class));
-//niftyElement.getRenderer(TextRenderer.class).setText("BIT: " + tpf);
+        
+        Label money = main.getNifty().getCurrentScreen().findNiftyControl("funds", Label.class);
+    money.setText("BIT: " + main.bit);
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
@@ -109,11 +116,16 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
 
     public void getUpgradeSel(String upgrade) {
         //used to get the selection made by the gui and move to the placement state
+        int upType = Integer.parseInt(upgrade.substring(3));
+        if(main.bit >= UpgradePlacementState.price[upType-1]){
         System.out.println("Selected upgrade: " + upgrade);
         AppStateManager asm = main.getStateManager();
         UpgradePlacementState ups = new UpgradePlacementState(upgrade);
         asm.detach(this);
         asm.attach(ups);
+        } else {
+            System.out.println("Not enough funds");
+        }
     }
 
   public void quitGame() {

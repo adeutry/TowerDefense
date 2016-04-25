@@ -180,6 +180,11 @@ public class Main extends SimpleApplication {
     
 
   }
+  
+  public void initBG(){
+      Spatial sky = SkyFactory.createSky(assetManager, "Textures/Sky/BlueClouds.dds", false);
+    rootNode.attachChild(sky);
+  }
 
   private void initGui() {
     //create the state info break in the top right

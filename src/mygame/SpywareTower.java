@@ -22,10 +22,11 @@ public class SpywareTower extends Tower {
   {
     super(main);
     this.main = main;
-    this.enemyPriority = VIRUS;
+    this.enemyPriority = SPYWARE;
     this.strength = 100;
     this.speed = 2;
     this.range = 10;
+    this.setName("spywaresweeper");
     
         
     //custom spatial

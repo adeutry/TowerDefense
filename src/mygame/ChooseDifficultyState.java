@@ -207,7 +207,7 @@ public class ChooseDifficultyState extends AbstractAppState implements ActionLis
 
     @Override
     public void cleanup() {
-        System.out.println("cleaning up break screen...");
+        System.out.println("cleaning up difficulty screen...");
         main.getGuiNode().detachAllChildren();
         main.getGuiViewPort().removeProcessor(main.getNiftyDisplay());
         main.deleteInputMappings(newMappings);

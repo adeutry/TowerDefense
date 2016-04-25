@@ -103,11 +103,11 @@ public class MainTowerControl extends AbstractControl implements AnalogListener 
     private void initControls() {
 
         InputManager inputManager = main.getInputManager();
-        inputManager.addMapping("W", new KeyTrigger(KeyInput.KEY_T));
-        inputManager.addMapping("A", new KeyTrigger(KeyInput.KEY_F));
-        inputManager.addMapping("S", new KeyTrigger(KeyInput.KEY_G));
-        inputManager.addMapping("D", new KeyTrigger(KeyInput.KEY_H));
-        inputManager.addMapping("shoot", new KeyTrigger(KeyInput.KEY_Y));
+        inputManager.addMapping("W", new KeyTrigger(KeyInput.KEY_W));
+        inputManager.addMapping("A", new KeyTrigger(KeyInput.KEY_A));
+        inputManager.addMapping("S", new KeyTrigger(KeyInput.KEY_S));
+        inputManager.addMapping("D", new KeyTrigger(KeyInput.KEY_D));
+        inputManager.addMapping("shoot", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addListener(this, "W", "A", "S", "D");
         inputManager.addListener(actionListener, "shoot");
 

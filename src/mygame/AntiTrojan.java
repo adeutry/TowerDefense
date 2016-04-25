@@ -34,11 +34,11 @@ public class AntiTrojan extends Tower{
         
     super(main);
     this.main = main;
-    this.enemyPriority = VIRUS;
+    this.enemyPriority = TROJAN;
     this.strength = 40;
     this.speed = 2;
     this.range = 10;
-    this.setName("Antitrojan");
+    this.setName("antitrojan");
     
         
     //custom spatial
