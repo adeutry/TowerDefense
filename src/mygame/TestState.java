@@ -34,7 +34,7 @@ public class TestState extends AbstractAppState implements ActionListener {
 				main.getCamera().setLocation(new Vector3f(0,2,10));
 				
 				//add tower
-				Tower t1 = new Tower(main);
+				Tower t1 = new AntiVirusTower(main);
 				main.towers.add(t1);
 				
 				//enemy
