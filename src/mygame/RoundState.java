@@ -100,7 +100,7 @@ public class RoundState extends AbstractAppState implements ActionListener {
     //if the round has ended and no more enemies remain we end this round
     if (!active && (main.enemyCount <= 0)) {
       System.out.println("transitioning to break state...");
-      BreakState bs = new BreakState(); 
+      BreakState bs = new BreakState();
       main.getStateManager().detach(this);
       main.getStateManager().attach(bs);
     }

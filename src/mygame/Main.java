@@ -43,7 +43,7 @@ public class Main extends SimpleApplication {
   public ArrayList<Enemy> enemies;
   public int enemyCount = 0;
   public String difficulty = "";
-  public AudioNode mainSong;
+  public AudioNode mainSong, explosion;
   /**
    * Physics for collision
    */
@@ -126,6 +126,14 @@ public class Main extends SimpleApplication {
     mainSong.setVolume(3);
     rootNode.attachChild(mainSong);
     mainSong.play(); // play continuously!
+    
+    //action triggered sounds 
+    explosion = new AudioNode(assetManager, "Audio/explosion_x.wav",false);
+    explosion.setPositional(false);
+    explosion.setLooping(false);
+    explosion.setVolume(2);
+    rootNode.attachChild(explosion);
+    
   }
 
   private void initModels() {
