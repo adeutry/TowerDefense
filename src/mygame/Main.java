@@ -74,7 +74,7 @@ public class Main extends SimpleApplication {
 
 
     StartScreenState startScreen = new StartScreenState();
-    stateManager.attach(startScreen);
+    stateManager.attach(new TestState());
 
 //				TestState testState = new TestState();
 //        stateManager.attach(testState);

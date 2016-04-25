@@ -20,6 +20,7 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import mygame.Tower.TowerControl;
 
 public class BreakState extends AbstractAppState implements ActionListener, ScreenController {
 
@@ -66,6 +67,7 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
         Tower newTower = new AntiVirusTower(main);
         main.towers.add(newTower);
         main.homeTower = newTower;
+        newTower.removeControl(TowerControl.class);
         Geometry towGeom = (Geometry) newTower.getChild("TowerGeo");
         towGeom.getMaterial().setColor("Color", ColorRGBA.Cyan);
         newTower.move(new Vector3f(0, 0, 0));

@@ -93,6 +93,7 @@ Application app;
     Head.attachChild(circ);
     Tower.attachChild(Head);
     Tower.attachChild(gBox);
+
     Tower.addControl(new MainTowerControl(app, this));
     main.getRootNode().attachChild(Tower);
 
