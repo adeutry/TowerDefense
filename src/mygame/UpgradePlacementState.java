@@ -147,13 +147,13 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
         if(upType == 1){
            newTower = new AntiVirusTower(main); //Makes antivirus
         } else if (upType == 2){
-           newTower = new AntiVirusTower(main); //Makes Spyware sweeper
+           newTower = new SpywareTower(main); //Makes Spyware sweeper
         } else if (upType == 3){
-           newTower = new AntiVirusTower(main); //Makes 3rd protector
+           newTower = new AntiTrojan(main); //Makes 3rd protector
         }
         main.towers.add(newTower); //Adds it to the list of made towers
-        Geometry towGeom = (Geometry) newTower.getChild("TowerGeo"); //Gets the tower's geometry
-        towGeom.getMaterial().setColor("Color", colors[upType - 1]); //Changes the material
+        //Geometry towGeom = (Geometry) newTower.getChild("TowerGeo"); //Gets the tower's geometry
+        //towGeom.getMaterial().setColor("Color", colors[upType - 1]); //Changes the material
         newTower.move(new Vector3f(-2, 0, -10)); //Poisitons
         tower = newTower;
         tower.addControl(new CollisionControl(main, tower)); //Checks collisions

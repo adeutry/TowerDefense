@@ -22,6 +22,7 @@ import com.jme3.scene.shape.Sphere;
  */
 public abstract class TestEnemy extends Enemy {
 
+
     Geometry g;
 
     public TestEnemy(Main main, Vector3f pos) {
@@ -31,6 +32,7 @@ public abstract class TestEnemy extends Enemy {
         this.setLocalTranslation(pos);
     }
 
+
     private void initModel(Main main) {
         Sphere s = new Sphere(10, 10, 0.5f);
         g = new Geometry("TestEnemy", s);
@@ -39,6 +41,7 @@ public abstract class TestEnemy extends Enemy {
         mat.setColor("Color", ColorRGBA.White);
         g.setMaterial(main.whiteGlow);
         this.attachChild(g);
+
 
     }
 
@@ -169,5 +172,6 @@ public abstract class TestEnemy extends Enemy {
                 target = newTarget;
             }
         }
+
     }
 }

@@ -1,6 +1,8 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.audio.AudioData.DataType;
+import com.jme3.audio.AudioNode;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
@@ -13,10 +15,12 @@ import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.BloomFilter;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
+import com.jme3.util.TangentBinormalGenerator;
 import de.lessvoid.nifty.Nifty;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
@@ -40,21 +44,25 @@ public class Main extends SimpleApplication {
   public ArrayList<Enemy> enemies;
   public int enemyCount = 0;
   public String difficulty = "";
+  public AudioNode mainSong;
+  public int roundNum = 0;
   /**
    * Physics for collision
    */
   public BulletAppState bulletAppState;
   public Tower homeTower;
-  Material whiteGlow;
-  Material laserGlow;
   public int health = 100;
   public int bit = 0;
+  public MainTower mainTower;
+  Material whiteGlow,TrojanGlow;
+  Material laserGlow, redGlow;
 
   public static void main(String[] args) {
     Main app = new Main();
     initAppScreen(app);
     app.start();
   }
+  Spatial spikeBombSpatial, spywareTowerSpatial, AntiTrojanSpatial;
 
   @Override
   public void simpleInitApp() {
@@ -63,6 +71,7 @@ public class Main extends SimpleApplication {
     initLights();
     initModels();
     initGui();
+    initAudio();
 
     //MainTower
     initCrossHairs();
@@ -86,12 +95,22 @@ public class Main extends SimpleApplication {
     whiteGlow = new Material(getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
     whiteGlow.setColor("Color", ColorRGBA.Cyan);
     whiteGlow.setColor("GlowColor", ColorRGBA.White);
+    TrojanGlow = new Material(getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+    TrojanGlow.setColor("Color", ColorRGBA.Yellow);
+    TrojanGlow.setColor("GlowColor", ColorRGBA.Red);
     FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
     BloomFilter bloom = new BloomFilter(BloomFilter.GlowMode.Objects);
     bloom.setBloomIntensity(3.0f);
     bloom.setBlurScale(7.0f);
     fpp.addFilter(bloom);
     viewPort.addProcessor(fpp);
+    
+     //glow for enemies
+    redGlow = new Material(getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+    ColorRGBA red = ColorRGBA.Red.clone();
+    red.a = 0.5f;
+    redGlow.setColor("Color", ColorRGBA.White);
+    redGlow.setColor("GlowColor", red);
 
     //glow for laser beams
     laserGlow = new Material(getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
@@ -103,6 +122,16 @@ public class Main extends SimpleApplication {
 
   private void initLights() {
   }
+  
+  public void initAudio(){
+     /* nature sound - keeps playing in a loop. */
+    mainSong = new AudioNode(assetManager, "Audio/tronMusic.wav", false);
+    mainSong.setLooping(true);  // activate continuous playing
+    mainSong.setPositional(false);   
+    mainSong.setVolume(3);
+    rootNode.attachChild(mainSong);
+    mainSong.play(); // play continuously!
+  }
 
   private void initModels() {
 
@@ -113,6 +142,18 @@ public class Main extends SimpleApplication {
     //attach skybox
     Spatial sky = SkyFactory.createSky(assetManager, "Textures/Sky/BlueClouds.dds", false);
     rootNode.attachChild(sky);
+    
+    //model for the spyware enemy
+    spikeBombSpatial = this.assetManager.loadModel("Models/spikeBomb/spikeBomb4.j3o");
+    TangentBinormalGenerator.generate(spikeBombSpatial);
+    
+    spywareTowerSpatial = this.assetManager.loadModel("Models/spywareTower/spywareTower.j3o");
+    TangentBinormalGenerator.generate(spikeBombSpatial);
+    
+    //model for AntiTrojan
+    AntiTrojanSpatial = this.assetManager.loadModel("Models/AntiTrojan/untitled.j3o");
+    TangentBinormalGenerator.generate(AntiTrojanSpatial);
+    
 
   }
 

@@ -21,38 +21,51 @@ import java.util.ArrayList;
 
 public class RoundState extends AbstractAppState implements ActionListener, ScreenController{
 
-    Main main;
-    private String newMappings[];
-    Tower[] towers = new Tower[10];
-    ArrayList<Node> collideList;
-    private boolean active = true;
-    //How often enemies are spawned. A lower value increases the spawn rate.
-    private static final float ENEMY_SPAWN_RATE = 3f;
-    //how far away from the origin the enemies will spawn
-    private static final float ENEMY_SPAWN_OFFSET = 30f;
-    //the maximum angle the enemies are allowed to spawn. If the angle = 180deg
-    //the enemies will spawn from any angle on the negative Z axis side. If 
-    //angle = 360 the enemies will spawn from any angle around the tower
-    private static final float ENEMY_SPAWN_ANGLE_RANGE = 70f;
-    private static final float MAX_ROUND_TIME = 10f;
-    private float enemySpawnTimer = 0;
-    private float roundTime = 0;
-    //MainTower
-    MainTower tow;
-    //lasers
-    long totalTime, currentTime;
-    long HALF_SEC = 500;
+  Main main;
+  private String newMappings[];
+  Tower[] towers = new Tower[10];
+  ArrayList<Node> collideList;
+  private boolean active = true;
+  //How often enemies are spawned. A lower value increases the spawn rate.
+  private float ENEMY_SPAWN_RATE = 3f;
+  private float ENEMY_SPAWN_RATE_INCR = 0.4f;
+  //how far away from the origin the enemies will spawn
+  private static final float ENEMY_SPAWN_OFFSET = 30f;
+  //the maximum angle the enemies are allowed to spawn. If the angle = 180deg
+  //the enemies will spawn from any angle on the negative Z axis side. If 
+  //angle = 360 the enemies will spawn from any angle around the tower
+  private static final float ENEMY_SPAWN_ANGLE_RANGE = 70f;
+  private static final float MAX_ROUND_TIME = 10f;
+  private float enemySpawnTimer = 0;
+  private float roundTime = 0;
+  
+  private float testEnemyFreq = 0.5f;
+  private float spywareFreq = 0.25f;
+  private float trojanFreq = 0.25f;
+  //MainTower
+  MainTower tow;
+  //lasers
+  long totalTime, currentTime;
+  long HALF_SEC = 500;
 
-    @Override
-    public void initialize(AppStateManager stateManager, Application app) {
+  @Override
+  public void initialize(AppStateManager stateManager, Application app) {
 
-        this.main = (Main) app;
-
-        main.getFlyByCamera().setDragToRotate(false);
-        main.stateInfoText.setText("state: RoundState\nPause Game: P\nEnd Screen: Space");
-        collideList = new ArrayList<Node>();
-        main.enemyCount = 0;
-
+    
+    this.main = (Main) app;
+    main.stateInfoText.setText("state: RoundState\nPause Game: P\nEnd Screen: Space");
+    collideList = new ArrayList<Node>();
+    main.enemyCount = 0;
+    main.roundNum++;
+    ENEMY_SPAWN_RATE-=ENEMY_SPAWN_RATE_INCR*main.roundNum;
+    
+    //Add main tower + controls
+     if(main.mainTower == null)
+     {
+       tow = new MainTower(main);
+       main.mainTower = tow;
+     }
+     
         //Keys
         InputManager inputManager = main.getInputManager();
         inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_P));
@@ -63,9 +76,7 @@ public class RoundState extends AbstractAppState implements ActionListener, Scre
         // attach the Nifty display to the gui view port as a processor
         main.getGuiViewPort().addProcessor(main.getNiftyDisplay());
 
-        //Add main tower + controls
-        tow = new MainTower(main);
-    }
+  }
 
 @Override
   public void update(float tpf) {
@@ -82,7 +93,17 @@ public class RoundState extends AbstractAppState implements ActionListener, Scre
       float posX = FastMath.sin(angle) * ENEMY_SPAWN_OFFSET;
       float posZ = -FastMath.cos(angle) * ENEMY_SPAWN_OFFSET;
       System.out.println("posX: " + posX + "\nposY: " + posZ + "\n");
-      TestEnemy te = new Virus(main, new Vector3f(posX, 0, posZ));
+      Enemy te;
+      float r = (float)Math.random();
+      if(r < testEnemyFreq )
+      {
+        te = new Virus(main, new Vector3f(posX, 0, posZ));
+      }else if( (r > testEnemyFreq) && (r < testEnemyFreq + trojanFreq) ) {
+        te = new Trojan(main, new Vector3f(posX,0,posZ));
+      } else{
+        te = new SpywareEnemy(main, new Vector3f(posX, 0, posZ));
+      }
+      
       main.enemies.add(te);
       main.getRootNode().attachChild(te);
       //te.setLocalTranslation(posX, 0, posZ);
@@ -99,7 +120,7 @@ public class RoundState extends AbstractAppState implements ActionListener, Scre
     //if the round has ended and no more enemies remain we end this round
     if (!active && (main.enemyCount <= 0)) {
       System.out.println("transitioning to break state...");
-      BreakState bs = new BreakState();
+      BreakState bs = new BreakState(); 
       main.getStateManager().detach(this);
       main.getStateManager().attach(bs);
     }

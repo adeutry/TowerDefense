@@ -11,16 +11,23 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
+import com.jme3.post.FilterPostProcessor;
+import com.jme3.post.filters.BloomFilter;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Cylinder;
+import java.awt.Color;
 
 /**
  *
  * @author adeut_000
  */
 public class TestState extends AbstractAppState implements ActionListener {
+
 
 		Main main;
 		Geometry cylGeo;
@@ -56,29 +63,29 @@ public class TestState extends AbstractAppState implements ActionListener {
         inputManager.addListener(this, new String[]{"Menu"});
     }
 
-    @Override
-    public void update(float tpf) {
-				laserScale=laserScale*1.21f;
-			//	cylGeo.setLocalScale(laserScale,laserScale,1);
-				
-						
-				
-    }
 
-    public void onAction(String name, boolean isPressed, float tpf) {
-        //Pausing game during round
-        if (name.equals("Menu") && isPressed) {
-            //transition to initial break screen
-            AppStateManager asm = main.getStateManager();
-            StartScreenState startScreenState = new StartScreenState();
-            asm.detach(this);
-            asm.attach(startScreenState);
-        }
-    }
 
-    @Override
-    public void cleanup() {
- 
-		}
-		
+  @Override
+  public void update(float tpf) {
+    laserScale = laserScale * 1.21f;
+    //	cylGeo.setLocalScale(laserScale,laserScale,1);
+
+
+
+  }
+
+  public void onAction(String name, boolean isPressed, float tpf) {
+    //Pausing game during round
+    if (name.equals("Menu") && isPressed) {
+      //transition to initial break screen
+      AppStateManager asm = main.getStateManager();
+      StartScreenState startScreenState = new StartScreenState();
+      asm.detach(this);
+      asm.attach(startScreenState);
+    }
+  }
+
+  @Override
+  public void cleanup() {
+  }
 }
