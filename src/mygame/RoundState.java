@@ -22,9 +22,9 @@ public class RoundState extends AbstractAppState implements ActionListener {
   ArrayList<Node> collideList;
   private boolean active = true;
   //How often enemies are spawned. A lower value increases the spawn rate.
-  private static final float ENEMY_SPAWN_RATE = 1f;
+  private static final float ENEMY_SPAWN_RATE = 2f;
   //how far away from the origin the enemies will spawn
-  private static final float ENEMY_SPAWN_OFFSET = 10f;
+  private static final float ENEMY_SPAWN_OFFSET = 30f;
   //the maximum angle the enemies are allowed to spawn. If the angle = 180deg
   //the enemies will spawn from any angle on the negative Z axis side. If 
   //angle = 360 the enemies will spawn from any angle around the tower
@@ -32,6 +32,9 @@ public class RoundState extends AbstractAppState implements ActionListener {
   private static final float MAX_ROUND_TIME = 1000f;
   private float enemySpawnTimer = 0;
   private float roundTime = 0;
+  
+  private float testEnemyFreq = 0.5f;
+  private float spywareFreq = 0.5f;
   //MainTower
   MainTower tow;
   //lasers
@@ -70,7 +73,15 @@ public class RoundState extends AbstractAppState implements ActionListener {
       float posX = FastMath.sin(angle) * ENEMY_SPAWN_OFFSET;
       float posZ = -FastMath.cos(angle) * ENEMY_SPAWN_OFFSET;
       System.out.println("posX: " + posX + "\nposY: " + posZ + "\n");
-      TestEnemy te = new TestEnemy(main, new Vector3f(posX, 0, posZ));
+      Enemy te;
+      double r = Math.random();
+      if(r < testEnemyFreq )
+      {
+        te = new TestEnemy(main, new Vector3f(posX, 0, posZ));
+      }else{
+        te = new SpywareEnemy(main, new Vector3f(posX, 0, posZ));
+      }
+      
       main.enemies.add(te);
       main.getRootNode().attachChild(te);
       //te.setLocalTranslation(posX, 0, posZ);

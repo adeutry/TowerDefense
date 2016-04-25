@@ -17,6 +17,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
+import com.jme3.util.TangentBinormalGenerator;
 import de.lessvoid.nifty.Nifty;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
@@ -46,13 +47,14 @@ public class Main extends SimpleApplication {
   public BulletAppState bulletAppState;
   public Tower homeTower;
   Material whiteGlow;
-  Material laserGlow;
+  Material laserGlow, redGlow;
 
   public static void main(String[] args) {
     Main app = new Main();
     initAppScreen(app);
     app.start();
   }
+  Spatial spikeBombSpatial, spywareTowerSpatial;
 
   @Override
   public void simpleInitApp() {
@@ -90,6 +92,13 @@ public class Main extends SimpleApplication {
     bloom.setBlurScale(7.0f);
     fpp.addFilter(bloom);
     viewPort.addProcessor(fpp);
+    
+     //glow for enemies
+    redGlow = new Material(getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+    ColorRGBA red = ColorRGBA.Red.clone();
+    red.a = 0.5f;
+    redGlow.setColor("Color", ColorRGBA.White);
+    redGlow.setColor("GlowColor", red);
 
     //glow for laser beams
     laserGlow = new Material(getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
@@ -111,6 +120,13 @@ public class Main extends SimpleApplication {
     //attach skybox
     Spatial sky = SkyFactory.createSky(assetManager, "Textures/Sky/BlueClouds.dds", false);
     rootNode.attachChild(sky);
+    
+    //model for the spyware enemy
+    spikeBombSpatial = this.assetManager.loadModel("Models/spikeBomb/spikeBomb4.j3o");
+    TangentBinormalGenerator.generate(spikeBombSpatial);
+    
+    spywareTowerSpatial = this.assetManager.loadModel("Models/spywareTower/spywareTower.j3o");
+    TangentBinormalGenerator.generate(spikeBombSpatial);
 
   }
 
