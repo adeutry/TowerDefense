@@ -15,6 +15,7 @@ import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.BloomFilter;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
@@ -49,6 +50,7 @@ public class Main extends SimpleApplication {
    */
   public BulletAppState bulletAppState;
   public Tower homeTower;
+  public MainTower mainTower;
   Material whiteGlow,TrojanGlow;
   Material laserGlow, redGlow;
 

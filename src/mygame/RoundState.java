@@ -34,7 +34,8 @@ public class RoundState extends AbstractAppState implements ActionListener {
   private float roundTime = 0;
   
   private float testEnemyFreq = 0.5f;
-  private float spywareFreq = 0.5f;
+  private float spywareFreq = 0.25f;
+  private float trojanFreq = 0.25f;
   //MainTower
   MainTower tow;
   //lasers
@@ -56,7 +57,12 @@ public class RoundState extends AbstractAppState implements ActionListener {
     inputManager.addListener(this, newMappings = new String[]{"Pause", "End"});
 
     //Add main tower + controls
-    tow = new MainTower(main);
+     if(main.mainTower == null)
+     {
+       tow = new MainTower(main);
+       main.mainTower = tow;
+     }
+      
 
 
   }
@@ -74,15 +80,15 @@ public class RoundState extends AbstractAppState implements ActionListener {
       float posZ = -FastMath.cos(angle) * ENEMY_SPAWN_OFFSET;
       System.out.println("posX: " + posX + "\nposY: " + posZ + "\n");
       Enemy te;
-      double r = Math.random();
+      float r = (float)Math.random();
       if(r < testEnemyFreq )
       {
         te = new TestEnemy(main, new Vector3f(posX, 0, posZ));
-      }else{
-       // te = new SpywareEnemy(main, new Vector3f(posX, 0, posZ));
-      //}
+      }else if( (r > testEnemyFreq) && (r < testEnemyFreq + trojanFreq) ) {
         te = new Trojan(main, new Vector3f(posX,0,posZ));
-      } 
+      } else{
+        te = new SpywareEnemy(main, new Vector3f(posX, 0, posZ));
+      }
       
       main.enemies.add(te);
       main.getRootNode().attachChild(te);
