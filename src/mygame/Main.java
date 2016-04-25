@@ -15,6 +15,7 @@ import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.BloomFilter;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
@@ -43,12 +44,16 @@ public class Main extends SimpleApplication {
   public ArrayList<Enemy> enemies;
   public int enemyCount = 0;
   public String difficulty = "";
-  public AudioNode mainSong, explosion;
+  public AudioNode mainSong, explosion,laserSound,demolish;
+  public int roundNum = 0;
   /**
    * Physics for collision
    */
   public BulletAppState bulletAppState;
   public Tower homeTower;
+  public int health = 100;
+  public int bit = 0;
+  public MainTower mainTower;
   Material whiteGlow,TrojanGlow;
   Material laserGlow, redGlow;
 
@@ -133,6 +138,22 @@ public class Main extends SimpleApplication {
     explosion.setLooping(false);
     explosion.setVolume(2);
     rootNode.attachChild(explosion);
+    
+    //laser shots
+    laserSound = new AudioNode(assetManager, "Audio/phasers3.wav",false);
+    laserSound.setPositional(false);
+    laserSound.setLooping(false);
+    laserSound.setVolume(2);
+    rootNode.attachChild(laserSound);
+    
+    //tower demolish
+     demolish = new AudioNode(assetManager, "Audio/aoogah.wav",false);
+    demolish.setPositional(false);
+    demolish.setLooping(false);
+    demolish.setVolume(2);
+    rootNode.attachChild(laserSound);
+    
+    
     
   }
 

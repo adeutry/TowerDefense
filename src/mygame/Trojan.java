@@ -32,6 +32,7 @@ public class Trojan extends Enemy{
         //this.bitDrop = 25; 
         initModel(main);
         this.setLocalTranslation(pos);
+        
         this.addControl(new Trojan.TrojanControl(this));
     }
 
@@ -50,6 +51,7 @@ public class Trojan extends Enemy{
     public void die() {
         new SingleParticleEmitter((SimpleApplication) main, this, Vector3f.ZERO, "enemyDeath");
         g.removeFromParent();
+        main.explosion.playInstance();
         main.enemyCount--;
     }
 

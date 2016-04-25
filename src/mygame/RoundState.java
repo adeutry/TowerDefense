@@ -12,9 +12,14 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.TextRenderer;
+import de.lessvoid.nifty.screen.Screen;
+import de.lessvoid.nifty.screen.ScreenController;
 import java.util.ArrayList;
 
-public class RoundState extends AbstractAppState implements ActionListener {
+public class RoundState extends AbstractAppState implements ActionListener, ScreenController{
 
   Main main;
   private String newMappings[];
@@ -22,7 +27,8 @@ public class RoundState extends AbstractAppState implements ActionListener {
   ArrayList<Node> collideList;
   private boolean active = true;
   //How often enemies are spawned. A lower value increases the spawn rate.
-  private static final float ENEMY_SPAWN_RATE = 3f;
+  private float ENEMY_SPAWN_RATE = 3f;
+  private float ENEMY_SPAWN_RATE_INCR = 0.4f;
   //how far away from the origin the enemies will spawn
   private static final float ENEMY_SPAWN_OFFSET = 30f;
   //the maximum angle the enemies are allowed to spawn. If the angle = 180deg
@@ -34,7 +40,8 @@ public class RoundState extends AbstractAppState implements ActionListener {
   private float roundTime = 0;
   
   private float testEnemyFreq = 0.5f;
-  private float spywareFreq = 0.5f;
+  private float spywareFreq = 0.25f;
+  private float trojanFreq = 0.25f;
   //MainTower
   MainTower tow;
   //lasers
@@ -44,20 +51,30 @@ public class RoundState extends AbstractAppState implements ActionListener {
   @Override
   public void initialize(AppStateManager stateManager, Application app) {
 
+    
     this.main = (Main) app;
     main.stateInfoText.setText("state: RoundState\nPause Game: P\nEnd Screen: Space");
     collideList = new ArrayList<Node>();
     main.enemyCount = 0;
-
-    //Keys
-    InputManager inputManager = main.getInputManager();
-    inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_P));
-    inputManager.addMapping("End", new KeyTrigger(KeyInput.KEY_SPACE));
-    inputManager.addListener(this, newMappings = new String[]{"Pause", "End"});
-
+    main.roundNum++;
+    ENEMY_SPAWN_RATE-=ENEMY_SPAWN_RATE_INCR*main.roundNum;
+    
     //Add main tower + controls
-    tow = new MainTower(main);
+     if(main.mainTower == null)
+     {
+       tow = new MainTower(main);
+       main.mainTower = tow;
+     }
+     
+        //Keys
+        InputManager inputManager = main.getInputManager();
+        inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_P));
+        inputManager.addMapping("End", new KeyTrigger(KeyInput.KEY_SPACE));
+        inputManager.addListener(this, newMappings = new String[]{"Pause", "End"});
+        main.getNifty().fromXml("Interface/Menus.xml", "hud", this);
 
+        // attach the Nifty display to the gui view port as a processor
+        main.getGuiViewPort().addProcessor(main.getNiftyDisplay());
 
   }
 
@@ -65,6 +82,9 @@ public class RoundState extends AbstractAppState implements ActionListener {
   public void update(float tpf) {
     //increment the enemy spawn timer and if it exceeds the enemy spawn rate
     //spawn another enemy
+        // find old text
+    Element niftyElement = main.getNifty().getCurrentScreen().findElementByName("money");
+    // swap old with new text
     enemySpawnTimer += tpf;
     if (active && (enemySpawnTimer >= ENEMY_SPAWN_RATE)) {
       System.out.println("Spawning enemy!");
@@ -74,15 +94,15 @@ public class RoundState extends AbstractAppState implements ActionListener {
       float posZ = -FastMath.cos(angle) * ENEMY_SPAWN_OFFSET;
       System.out.println("posX: " + posX + "\nposY: " + posZ + "\n");
       Enemy te;
-      double r = Math.random();
+      float r = (float)Math.random();
       if(r < testEnemyFreq )
       {
-        te = new TestEnemy(main, new Vector3f(posX, 0, posZ));
-      }else{
-       // te = new SpywareEnemy(main, new Vector3f(posX, 0, posZ));
-      //}
+        te = new Virus(main, new Vector3f(posX, 0, posZ));
+      }else if( (r > testEnemyFreq) && (r < testEnemyFreq + trojanFreq) ) {
         te = new Trojan(main, new Vector3f(posX,0,posZ));
-      } 
+      } else{
+        te = new SpywareEnemy(main, new Vector3f(posX, 0, posZ));
+      }
       
       main.enemies.add(te);
       main.getRootNode().attachChild(te);
@@ -142,4 +162,13 @@ public class RoundState extends AbstractAppState implements ActionListener {
     main.deleteInputMappings(newMappings);
     main.enemies.clear();
   }
+
+    public void bind(Nifty nifty, Screen screen) {
+    }
+
+    public void onStartScreen() {
+    }
+
+    public void onEndScreen() {
+    }
 }
