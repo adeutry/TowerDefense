@@ -1,6 +1,8 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.audio.AudioData.DataType;
+import com.jme3.audio.AudioNode;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
@@ -41,6 +43,7 @@ public class Main extends SimpleApplication {
   public ArrayList<Enemy> enemies;
   public int enemyCount = 0;
   public String difficulty = "";
+  public AudioNode mainSong;
   /**
    * Physics for collision
    */
@@ -63,6 +66,7 @@ public class Main extends SimpleApplication {
     initLights();
     initModels();
     initGui();
+    initAudio();
 
     //MainTower
     initCrossHairs();
@@ -109,6 +113,16 @@ public class Main extends SimpleApplication {
   }
 
   private void initLights() {
+  }
+  
+  public void initAudio(){
+     /* nature sound - keeps playing in a loop. */
+    mainSong = new AudioNode(assetManager, "Audio/tronMusic.wav", false);
+    mainSong.setLooping(true);  // activate continuous playing
+    mainSong.setPositional(false);   
+    mainSong.setVolume(3);
+    rootNode.attachChild(mainSong);
+    mainSong.play(); // play continuously!
   }
 
   private void initModels() {
