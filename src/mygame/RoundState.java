@@ -22,7 +22,8 @@ public class RoundState extends AbstractAppState implements ActionListener {
   ArrayList<Node> collideList;
   private boolean active = true;
   //How often enemies are spawned. A lower value increases the spawn rate.
-  private static final float ENEMY_SPAWN_RATE = 3f;
+  private float ENEMY_SPAWN_RATE = 3f;
+  private float ENEMY_SPAWN_RATE_INCR = 0.4f;
   //how far away from the origin the enemies will spawn
   private static final float ENEMY_SPAWN_OFFSET = 30f;
   //the maximum angle the enemies are allowed to spawn. If the angle = 180deg
@@ -45,11 +46,14 @@ public class RoundState extends AbstractAppState implements ActionListener {
   @Override
   public void initialize(AppStateManager stateManager, Application app) {
 
+    
     this.main = (Main) app;
     main.stateInfoText.setText("state: RoundState\nPause Game: P\nEnd Screen: Space");
     collideList = new ArrayList<Node>();
     main.enemyCount = 0;
-
+    main.roundNum++;
+    ENEMY_SPAWN_RATE-=ENEMY_SPAWN_RATE_INCR*main.roundNum;
+    
     //Keys
     InputManager inputManager = main.getInputManager();
     inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_P));

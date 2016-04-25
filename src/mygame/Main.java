@@ -45,6 +45,7 @@ public class Main extends SimpleApplication {
   public int enemyCount = 0;
   public String difficulty = "";
   public AudioNode mainSong;
+  public int roundNum = 0;
   /**
    * Physics for collision
    */
