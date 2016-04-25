@@ -63,13 +63,13 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
         main.getRootNode().attachChild(g);
 
         //set up home tower
-       /* Tower newTower = new AntiVirusTower(main);
+        Tower newTower = new AntiVirusTower(main);
         main.towers.add(newTower);
         main.homeTower = newTower;
         Geometry towGeom = (Geometry) newTower.getChild("TowerGeo");
         towGeom.getMaterial().setColor("Color", ColorRGBA.Cyan);
         newTower.move(new Vector3f(0, 0, 0));
-        main.getRootNode().attachChild(newTower);*/
+        main.getRootNode().attachChild(newTower);
 
     }
 
@@ -117,25 +117,25 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
         asm.attach(ups);
     }
 
-    public void quitGame() {
-        //closes game
-        System.out.println("quit being called");
-        main.stop();
-    }
+  public void quitGame() {
+    //closes game
+    System.out.println("quit being called");
+    main.stop();
+  }
 
-    @Override
-    public void cleanup() {
-        System.out.println("cleaning up break screen...");
-        main.getGuiViewPort().removeProcessor(main.getNiftyDisplay());
-        main.deleteInputMappings(newMappings);
-    }
+  @Override
+  public void cleanup() {
+    System.out.println("cleaning up break screen...");
+    main.getGuiViewPort().removeProcessor(main.getNiftyDisplay());
+    main.deleteInputMappings(newMappings);
+  }
 
-    public void bind(Nifty nifty, Screen screen) {
-    }
+  public void bind(Nifty nifty, Screen screen) {
+  }
 
-    public void onStartScreen() {
-    }
+  public void onStartScreen() {
+  }
 
-    public void onEndScreen() {
-    }
+  public void onEndScreen() {
+  }
 }

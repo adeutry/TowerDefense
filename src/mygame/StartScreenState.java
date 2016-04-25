@@ -50,9 +50,9 @@ public class StartScreenState extends AbstractAppState implements ActionListener
 		{
 			//transition to initial break screen
 			AppStateManager asm = main.getStateManager();
-			BreakState breakState = new BreakState();
+			ChooseDifficultyState s = new ChooseDifficultyState();
 			asm.detach(this);
-			asm.attach(breakState);
+			asm.attach(s);
 		}
 			
 	}
