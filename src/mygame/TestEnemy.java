@@ -59,12 +59,9 @@ public abstract class TestEnemy extends Enemy {
         private static final int ATTACKING = 1;
         private float ATTACK_RANGE = 2f;
         private float ATTACK_COOLDOWN = 2f;
-<<<<<<< HEAD
-        private float ATTACK_DMG = 20f;
-=======
+
         private float SPEED = 1f;
         private float ATTACK_DMG = 2f;
->>>>>>> d47b3e831add4509a607689fe10aaa9dbb437424
         private float attackTimer = 0;
         private float time = 0;
         private int state;

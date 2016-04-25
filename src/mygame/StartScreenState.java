@@ -12,6 +12,7 @@ import com.jme3.ui.Picture;
 public class StartScreenState extends AbstractAppState implements ActionListener {
 
 	private Picture logoPic;
+        private Picture controlPic;
         private String newMappings[];
 	Main main;
 	
@@ -20,16 +21,27 @@ public class StartScreenState extends AbstractAppState implements ActionListener
 	{
 		this.main = (Main)app;
 		main.stateInfoText.setText("state: StartScreenState\nGo to Round Screen: Space");
-		
+		main.setDisplayFps(false);
+                main.setDisplayStatView(false);
 		//create and attach logo
 		logoPic = new Picture("startScreenLogo");
 		logoPic.setImage(app.getAssetManager(), "Textures/UI/startScreenLogo2.png", true);
-		logoPic.setWidth(main.getAppSettings().getWidth()*.6f);
-		logoPic.setHeight(main.getAppSettings().getHeight()*.4f);
+		logoPic.setWidth(main.getAppSettings().getWidth()*.7f);
+		logoPic.setHeight(main.getAppSettings().getHeight()*.5f);
 		logoPic.setPosition(
-			 main.getAppSettings().getWidth()*.2f, 
-		   main.getAppSettings().getHeight()*.3f);
+			 main.getAppSettings().getWidth()*.15f, 
+		   main.getAppSettings().getHeight()*.45f);
 		main.getGuiNode().attachChild(logoPic);
+                
+                //create and attach logo
+		controlPic = new Picture("startScreenLogo");
+		controlPic.setImage(app.getAssetManager(), "Textures/UI/controls.png", true);
+		controlPic.setWidth(main.getAppSettings().getWidth()*.6f);
+		controlPic.setHeight(main.getAppSettings().getHeight()*.4f);
+		controlPic.setPosition(
+			 main.getAppSettings().getWidth()*.2f, 
+		   main.getAppSettings().getHeight()*.1f);
+		main.getGuiNode().attachChild(controlPic);
 		
 		//Keys
 		InputManager inputManager = main.getInputManager();
@@ -62,6 +74,7 @@ public class StartScreenState extends AbstractAppState implements ActionListener
 	{
 		System.out.println("cleaning up startScreen...");
 		main.getGuiNode().detachChild(logoPic);
+                main.getGuiNode().detachChild(controlPic);
                 main.deleteInputMappings(newMappings);
 	}
 
