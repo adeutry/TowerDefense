@@ -33,8 +33,8 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
     public void initialize(AppStateManager stateManager, Application app) {
         this.main = (Main) app;
         main.stateInfoText.setText("state: UpgradePlacementState\nConfirm placement: Space");
-        main.getCamera().setLocation(new Vector3f(0,5,0));
-        main.getCamera().lookAt(new Vector3f(0,0,-15), Vector3f.UNIT_Y);
+        main.getCamera().setLocation(new Vector3f(0, 5, 0));
+        main.getCamera().lookAt(new Vector3f(0, 0, -15), Vector3f.UNIT_Y);
         makeUpgrade();
 
         //Keys
@@ -49,8 +49,8 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
         inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_RIGHT));
         inputManager.addListener(this, newMappings = new String[]{"Confirm", "Quit",
             "Cancel", "Forward", "Backward", "Left", "Right"});
-				
-				
+
+
     }
 
     @Override
@@ -71,7 +71,6 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
             quitGame();
         }
         if (name.equals("Forward") && isPressed) {
-						System.out.println("forward triggered");
             //Places tower 1 space forward
             tower.move(new Vector3f(0, 0, -1));
             if (main.hasObject(tower.getControl(CollisionControl.class).getCollisions(), Tower.class)) {
@@ -82,7 +81,6 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
             }
         }
         if (name.equals("Backward") && isPressed) {
-						System.out.println("backward triggered");
             //Places tower 1 space backward
             tower.move(new Vector3f(0, 0, 1));
             if (main.hasObject(tower.getControl(CollisionControl.class).getCollisions(), Tower.class)) {
@@ -94,8 +92,7 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
 
         }
         if (name.equals("Left") && isPressed) {
-            System.out.println("left triggered");
-						//Places tower 1 space left
+            //Places tower 1 space left
             tower.move(new Vector3f(-1, 0, 0));
             if (main.hasObject(tower.getControl(CollisionControl.class).getCollisions(), Tower.class)) {
                 canPlace = false;
@@ -105,7 +102,6 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
             }
         }
         if (name.equals("Right") && isPressed) {
-						System.out.println("right triggered");
             //Places tower 1 space right
             tower.move(new Vector3f(1, 0, 0));
             if (main.hasObject(tower.getControl(CollisionControl.class).getCollisions(), Tower.class)) {
@@ -144,29 +140,34 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
     }
 
     private void makeUpgrade() {
-        ColorRGBA colors[] = {ColorRGBA.White, ColorRGBA.Yellow, ColorRGBA.Pink,
-            ColorRGBA.Green, ColorRGBA.Cyan, ColorRGBA.Orange, ColorRGBA.Red,
-            ColorRGBA.Gray, ColorRGBA.Magenta};
+        Tower newTower = null;
+        ColorRGBA colors[] = {ColorRGBA.White, ColorRGBA.Yellow, ColorRGBA.Pink};
         int upType = Integer.parseInt(this.upgrade.substring(3));
-        Tower newTower = new Tower(main);
-        main.towers.add(newTower);
-        Geometry towGeom = (Geometry) newTower.getChild("TowerGeo");
-        towGeom.getMaterial().setColor("Color", colors[upType - 1]);
-        newTower.move(new Vector3f(-2, 0, -10));
+        //Makes new tower
+        if(upType == 1){
+           newTower = new AntiVirusTower(main); //Makes antivirus
+        } else if (upType == 2){
+           newTower = new SpywareTower(main); //Makes Spyware sweeper
+        } else if (upType == 3){
+           newTower = new AntiVirusTower(main); //Makes 3rd protector
+        }
+        main.towers.add(newTower); //Adds it to the list of made towers
+        //Geometry towGeom = (Geometry) newTower.getChild("TowerGeo"); //Gets the tower's geometry
+        //towGeom.getMaterial().setColor("Color", colors[upType - 1]); //Changes the material
+        newTower.move(new Vector3f(-2, 0, -10)); //Poisitons
         tower = newTower;
-        tower.setName(upgrade);
-        tower.addControl(new CollisionControl(main, tower));
-        main.getRootNode().attachChild(newTower);
+        tower.addControl(new CollisionControl(main, tower)); //Checks collisions
+        main.getRootNode().attachChild(newTower); //Physically attaches tower
     }
 
     @Override
     public void cleanup() {
         System.out.println("cleaning up upgrade placement screen...");
-				for(Tower t: main.towers)
-				{
-						if(t.getControl(CollisionControl.class) != null)
-								t.getControl(CollisionControl.class).setEnabled(false);
-				}
+        for (Tower t : main.towers) {
+            if (t.getControl(CollisionControl.class) != null) {
+                t.getControl(CollisionControl.class).setEnabled(false);
+            }
+        }
         main.deleteInputMappings(newMappings);
     }
 }

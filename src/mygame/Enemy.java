@@ -13,37 +13,30 @@ import com.jme3.scene.Node;
  * @author adeut_000
  */
 public class Enemy extends Node {
-				
-				Main main;
-				EnemyControl control;
-				int hp;
-				boolean alive = true;
-				
-				public Enemy()
-				{
-							this.hp = 100;	
-				}
-				
-				public void receiveDamage(float dmg)
-				{
-						new SingleParticleEmitter((SimpleApplication)main, this, Vector3f.ZERO, "enemyDamage");
-						//check if enemy is dead
-						if( (this.hp -= dmg) <= 0 )
-						{
-								this.alive = false;
-								die();
-						}
-				}
-				
-				public void die()
-				{
-						
-				}
-				
-				public boolean isAlive()
-				{
-						return alive;
-				}
-				
-				
+
+    Main main;
+    EnemyControl control;
+    int hp;
+    boolean alive = true;
+
+    public Enemy() {
+        this.hp = 100;
+        this.setName("enemy");
+    }
+
+    public void receiveDamage(float dmg) {
+        new SingleParticleEmitter((SimpleApplication) main, this, Vector3f.ZERO, "enemyDamage");
+        //check if enemy is dead
+        if ((this.hp -= dmg) <= 0) {
+            this.alive = false;
+            die();
+        }
+    }
+
+    public void die() {
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
 }

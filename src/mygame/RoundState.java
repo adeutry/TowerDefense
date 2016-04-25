@@ -61,7 +61,7 @@ public class RoundState extends AbstractAppState implements ActionListener {
 
   }
 
-  @Override
+@Override
   public void update(float tpf) {
     //increment the enemy spawn timer and if it exceeds the enemy spawn rate
     //spawn another enemy
@@ -116,25 +116,24 @@ public class RoundState extends AbstractAppState implements ActionListener {
 
   }
 
-  public void onAction(String name, boolean isPressed, float tpf) {
+    public void onAction(String name, boolean isPressed, float tpf) {
 
-    //Pausing game during round
-    if (name.equals("Pause") && isPressed) {
-      System.out.println("Paused!");
-      //transition to initial break screen
-      AppStateManager asm = main.getStateManager();
-      PauseState breakState = new PauseState();
-      asm.detach(this);
-      asm.attach(breakState);
-    } else if (name.equals("End") && isPressed) {
-      //transition to initial break screen
-      AppStateManager asm = main.getStateManager();
-      EndScreenState endScreenState = new EndScreenState();
-      asm.detach(this);
-      asm.attach(endScreenState);
+        //Pausing game during round
+        if (name.equals("Pause") && isPressed) {
+            System.out.println("Paused!");
+            //transition to initial break screen
+            AppStateManager asm = main.getStateManager();
+            PauseState breakState = new PauseState();
+            asm.detach(this);
+            asm.attach(breakState);
+        } else if (name.equals("End") && isPressed) {
+            //transition to initial break screen
+            AppStateManager asm = main.getStateManager();
+            EndScreenState endScreenState = new EndScreenState();
+            asm.detach(this);
+            asm.attach(endScreenState);
+        }
     }
-  }
-
   @Override
   public void cleanup() {
     System.out.println("Cleaning up round state...");

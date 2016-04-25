@@ -30,8 +30,7 @@ import com.jme3.scene.shape.Sphere;
  * @author mikey
  */
 public class MainTower {
-
-  Application app;
+Application app;
   Main main;
   Material mat;
   Material mat1, mat2;
