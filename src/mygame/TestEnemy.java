@@ -60,7 +60,7 @@ public class TestEnemy extends Enemy {
         private static final int ATTACKING = 1;
         private static final float ATTACK_RANGE = 2f;
         private float ATTACK_COOLDOWN = 2f;
-        private float ATTACK_DMG = 2f;
+        private float ATTACK_DMG = 20f;
         private float attackTimer = 0;
         private float time = 0;
         private int state;
