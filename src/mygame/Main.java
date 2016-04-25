@@ -46,7 +46,7 @@ public class Main extends SimpleApplication {
    */
   public BulletAppState bulletAppState;
   public Tower homeTower;
-  Material whiteGlow;
+  Material whiteGlow,TrojanGlow;
   Material laserGlow, redGlow;
 
   public static void main(String[] args) {
@@ -54,7 +54,7 @@ public class Main extends SimpleApplication {
     initAppScreen(app);
     app.start();
   }
-  Spatial spikeBombSpatial, spywareTowerSpatial;
+  Spatial spikeBombSpatial, spywareTowerSpatial, AntiTrojanSpatial;
 
   @Override
   public void simpleInitApp() {
@@ -86,6 +86,9 @@ public class Main extends SimpleApplication {
     whiteGlow = new Material(getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
     whiteGlow.setColor("Color", ColorRGBA.Cyan);
     whiteGlow.setColor("GlowColor", ColorRGBA.White);
+    TrojanGlow = new Material(getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+    TrojanGlow.setColor("Color", ColorRGBA.Yellow);
+    TrojanGlow.setColor("GlowColor", ColorRGBA.Red);
     FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
     BloomFilter bloom = new BloomFilter(BloomFilter.GlowMode.Objects);
     bloom.setBloomIntensity(3.0f);
@@ -127,6 +130,11 @@ public class Main extends SimpleApplication {
     
     spywareTowerSpatial = this.assetManager.loadModel("Models/spywareTower/spywareTower.j3o");
     TangentBinormalGenerator.generate(spikeBombSpatial);
+    
+    //model for AntiTrojan
+    AntiTrojanSpatial = this.assetManager.loadModel("Models/AntiTrojan/untitled.j3o");
+    TangentBinormalGenerator.generate(AntiTrojanSpatial);
+    
 
   }
 

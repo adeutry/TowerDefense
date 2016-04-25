@@ -149,7 +149,7 @@ public class UpgradePlacementState extends AbstractAppState implements ActionLis
         } else if (upType == 2){
            newTower = new SpywareTower(main); //Makes Spyware sweeper
         } else if (upType == 3){
-           newTower = new AntiVirusTower(main); //Makes 3rd protector
+           newTower = new AntiTrojan(main); //Makes 3rd protector
         }
         main.towers.add(newTower); //Adds it to the list of made towers
         //Geometry towGeom = (Geometry) newTower.getChild("TowerGeo"); //Gets the tower's geometry

@@ -29,7 +29,7 @@ public class RoundState extends AbstractAppState implements ActionListener {
   //the enemies will spawn from any angle on the negative Z axis side. If 
   //angle = 360 the enemies will spawn from any angle around the tower
   private static final float ENEMY_SPAWN_ANGLE_RANGE = 70f;
-  private static final float MAX_ROUND_TIME = 1000f;
+  private static final float MAX_ROUND_TIME = 20f;
   private float enemySpawnTimer = 0;
   private float roundTime = 0;
   
@@ -79,8 +79,10 @@ public class RoundState extends AbstractAppState implements ActionListener {
       {
         te = new TestEnemy(main, new Vector3f(posX, 0, posZ));
       }else{
-        te = new SpywareEnemy(main, new Vector3f(posX, 0, posZ));
-      }
+       // te = new SpywareEnemy(main, new Vector3f(posX, 0, posZ));
+      //}
+        te = new Trojan(main, new Vector3f(posX,0,posZ));
+      } 
       
       main.enemies.add(te);
       main.getRootNode().attachChild(te);
