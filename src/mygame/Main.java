@@ -44,13 +44,15 @@ public class Main extends SimpleApplication {
   public ArrayList<Enemy> enemies;
   public int enemyCount = 0;
   public String difficulty = "";
-  public AudioNode mainSong;
+  public AudioNode mainSong, explosion,laserSound,demolish;
   public int roundNum = 0;
   /**
    * Physics for collision
    */
   public BulletAppState bulletAppState;
   public Tower homeTower;
+  public int health = 100;
+  public int bit = 0;
   public MainTower mainTower;
   Material whiteGlow,TrojanGlow;
   Material laserGlow, redGlow;
@@ -129,6 +131,30 @@ public class Main extends SimpleApplication {
     mainSong.setVolume(3);
     rootNode.attachChild(mainSong);
     mainSong.play(); // play continuously!
+    
+    //action triggered sounds 
+    explosion = new AudioNode(assetManager, "Audio/explosion_x.wav",false);
+    explosion.setPositional(false);
+    explosion.setLooping(false);
+    explosion.setVolume(2);
+    rootNode.attachChild(explosion);
+    
+    //laser shots
+    laserSound = new AudioNode(assetManager, "Audio/phasers3.wav",false);
+    laserSound.setPositional(false);
+    laserSound.setLooping(false);
+    laserSound.setVolume(2);
+    rootNode.attachChild(laserSound);
+    
+    //tower demolish
+     demolish = new AudioNode(assetManager, "Audio/aoogah.wav",false);
+    demolish.setPositional(false);
+    demolish.setLooping(false);
+    demolish.setVolume(2);
+    rootNode.attachChild(laserSound);
+    
+    
+    
   }
 
   private void initModels() {

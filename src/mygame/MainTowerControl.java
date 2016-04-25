@@ -61,6 +61,9 @@ public class MainTowerControl extends AbstractControl implements AnalogListener 
                     m.Head.attachChild(m.laserGeom);
                     m.Head.attachChild(m.laserNode);
                     shooting = true;
+                    
+                    //sound
+                    main.laserSound.playInstance();
                 }
             }
         };

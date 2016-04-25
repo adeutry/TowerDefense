@@ -48,7 +48,7 @@
             </panel>
         </layer>
     </screen>
-    <screen id="hud" controller="mygame.BreakState">
+    <screen id="hud" controller="mygame.RoundState">
         <layer id="background" childLayout="center">
             <image filename="Interface/hud-frame.png"
                    width="60%" height="20%" align="right" valign="top" childLayout="vertical"/>

@@ -32,25 +32,21 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         this.main = (Main) app;
+        main.health = 100;
         main.stateInfoText.setText("state: BreakScreenState\nStart Round: Space");
         if (main.getRootNode().getChild("floorGrid") == null) {
             ground = new Node();
             ground.setName("floorGrid");
             attachGrid(Vector3f.ZERO, 200, 200, 1, ColorRGBA.Cyan);
         }
-   /*     if (main.getRootNode().getChild("TestTower") == null) {
-            computerTower = new AntiVirusTower(main);
-            computerTower.setName("computer");
-            main.getRootNode().attachChild(computerTower);
-        } */
-
+        
         //Keys
         InputManager inputManager = main.getInputManager();
         inputManager.addMapping("StartRound", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addListener(this, newMappings = new String[]{"StartRound"});
         main.getNifty().fromXml("Interface/Menus.xml", "upgrade", this);
-// nifty.fromXml("Interface/helloworld.xml", "start", new MySettingsScreen(data));
-// attach the Nifty display to the gui view port as a processor
+
+        // attach the Nifty display to the gui view port as a processor
         main.getGuiViewPort().addProcessor(main.getNiftyDisplay());
         main.getFlyByCamera().setDragToRotate(true);
 
@@ -80,6 +76,7 @@ public class BreakState extends AbstractAppState implements ActionListener, Scre
         // find old text
 //Element niftyElement = main.getNifty().getCurrentScreen().findElementByName("money");
 //// swap old with new text
+//        System.out.println("render: " + niftyElement.getRenderer(TextRenderer.class));
 //niftyElement.getRenderer(TextRenderer.class).setText("BIT: " + tpf);
     }
 

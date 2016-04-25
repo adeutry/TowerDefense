@@ -20,7 +20,7 @@ import com.jme3.scene.shape.Sphere;
  *
  * @author adeut_000
  */
-public class TestEnemy extends Enemy {
+public abstract class TestEnemy extends Enemy {
 
 
     Geometry g;
@@ -30,7 +30,6 @@ public class TestEnemy extends Enemy {
         this.main = main;
         initModel(main);
         this.setLocalTranslation(pos);
-        this.addControl(new TestEnemyControl(this));
     }
 
 
@@ -50,17 +49,22 @@ public class TestEnemy extends Enemy {
     public void die() {
         new SingleParticleEmitter((SimpleApplication) main, this, Vector3f.ZERO, "enemyDeath");
         g.removeFromParent();
+        main.explosion.playInstance();
         main.enemyCount--;
+        main.bit += this.bitDrop;
     }
 
     public class TestEnemyControl extends EnemyControl {
-
-        Node testEnemyNode;
         private static final int MOVING = 0;
         private static final int ATTACKING = 1;
-        private static final float ATTACK_RANGE = 2f;
+        private float ATTACK_RANGE = 2f;
         private float ATTACK_COOLDOWN = 2f;
+<<<<<<< HEAD
         private float ATTACK_DMG = 20f;
+=======
+        private float SPEED = 1f;
+        private float ATTACK_DMG = 2f;
+>>>>>>> d47b3e831add4509a607689fe10aaa9dbb437424
         private float attackTimer = 0;
         private float time = 0;
         private int state;
@@ -68,8 +72,11 @@ public class TestEnemy extends Enemy {
         Enemy e;
 
         public TestEnemyControl(Node enemyNode) {
-            this.testEnemyNode = enemyNode;
             this.e = (Enemy) enemyNode;
+            this.ATTACK_RANGE = e.range;
+            this.ATTACK_DMG = e.strength;
+            this.SPEED = e.speed;
+            this.ATTACK_COOLDOWN = e.atkSpeed;
 
             //find first target
             this.target = null;
@@ -86,18 +93,19 @@ public class TestEnemy extends Enemy {
             if (target != null
                     && target.isAlive()
                     && target.getLocalTranslation()
-                    .distance(testEnemyNode.getLocalTranslation()) > ATTACK_RANGE) {
+                    .distance(e.getLocalTranslation()) > ATTACK_RANGE) {
 
-                testEnemyNode.move(target.getLocalTranslation()
-                        .subtract(testEnemyNode.getLocalTranslation())
+                Vector3f move = target.getLocalTranslation()
+                        .subtract(e.getLocalTranslation())
                         .normalize()
-                        .mult(tpf));
+                        .mult(tpf);
+                e.move(move.mult(SPEED));
             }
 
             //if target is within range, attack
             if (e.alive && (target != null)
                     && target.isAlive() && target.getLocalTranslation()
-                    .distance(testEnemyNode.getLocalTranslation()) <= ATTACK_RANGE) {
+                    .distance(e.getLocalTranslation()) <= ATTACK_RANGE) {
                 if ((attackTimer += tpf) >= ATTACK_COOLDOWN) {
                     System.out.println("Attacking tower!");
                     target.receiveDamage(ATTACK_DMG);
@@ -111,7 +119,7 @@ public class TestEnemy extends Enemy {
             }
 
 
-            //testEnemyNode.move(0, 0, -tpf);
+            //e.move(0, 0, -tpf);
         }
 
         @Override
@@ -131,7 +139,7 @@ public class TestEnemy extends Enemy {
                 newTarget = null;
             } else {
                 minDist = target.getLocalTranslation()
-                        .distance(testEnemyNode.getLocalTranslation());
+                        .distance(e.getLocalTranslation());
                 newTarget = target;
             }
 
@@ -141,16 +149,28 @@ public class TestEnemy extends Enemy {
                 if (t.isAlive()) {
                     //get the distance to the current tower under consideration
                     distTo = t.getLocalTranslation()
-                            .distance(testEnemyNode.getLocalTranslation());
+                            .distance(e.getLocalTranslation());
 
                     //check to see if it is closer than the closest tower
                     //we current have
-                    if (distTo < minDist) {
+                    //If within range and of high priority then taget
+                    if ((distTo < minDist) && t.getName().contains(e.towerMap[e.towerPriority])) {
                         newTarget = t;
                         minDist = distTo;
+                        //If within range, but not high priority but previous target isn't of high priority either
+                    } else if (distTo < minDist) {
+                        if (newTarget != null) {
+                            if (!newTarget.getName().contains(e.towerMap[e.towerPriority])) {
+                                newTarget = t;
+                                minDist = distTo;
+                            }
+                        } else {
+                            newTarget = t;
+                            minDist = distTo;
+                        }
                     }
-                }
 
+                }
             }
 
             if (newTarget != null) {

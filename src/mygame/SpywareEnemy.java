@@ -46,6 +46,7 @@ public class SpywareEnemy extends Enemy {
   public void die() {
     new SingleParticleEmitter((SimpleApplication) main, this, Vector3f.ZERO, "enemyDeath");
     g.removeFromParent();
+    main.explosion.playInstance();
     main.enemyCount--;
   }
 

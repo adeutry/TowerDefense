@@ -48,6 +48,7 @@ public abstract class Tower extends Node {
         this.attachChild((Node) towerLaser);
         this.attachChild(g);
         this.move(0, height, 0);
+        this.setName("tower");
     }
 
     public void receiveDamage(float dmg) {
@@ -68,6 +69,7 @@ public abstract class Tower extends Node {
     //death animation
     public void die() {
         new TowerDamageParticleEmitter((SimpleApplication) main, this, Vector3f.ZERO);
+        main.demolish.playInstance();
     }
 
     public class TowerControl extends AbstractControl {
@@ -111,6 +113,8 @@ public abstract class Tower extends Node {
                     towerLaser.shoot(target.getLocalTranslation()
                             .subtract(tower.getWorldTranslation()));
                     target.receiveDamage(ATTACK_DMG);
+                    //sounds
+                    main.laserSound.playInstance();
                     attackTimer = 0;
                 }
             } else {
